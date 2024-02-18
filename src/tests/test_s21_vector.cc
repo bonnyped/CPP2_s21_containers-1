@@ -242,7 +242,8 @@ TEST(S21_VECTOR, s21_at_test_13) {
   std::vector<std::string> vector_b{"1", "2", "3", "4", "5",
                                     "6", "7", "8", "9"};
   // EXPECT_EQ(vector_a.max_size(),
-  //           vector_b.max_size());  // тест зависимый от платформы и ахитектуры
+  //           vector_b.max_size());  // тест зависимый от платформы и
+  //           ахитектуры
   EXPECT_EQ(vector_a.at(4U), "5");
   EXPECT_THROW(vector_a.at(10U), std::out_of_range);
   EXPECT_EQ(vector_b.at(4U), "5");

@@ -120,7 +120,6 @@ class array {
     return *this;
   }
 };
-};  // namespace s21_array
-
+};  // namespace s21
 
 #endif  //  SRC_S21_CONTAINERS_S21_ARRAY_H_

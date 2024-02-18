@@ -3,6 +3,11 @@
 TEST(DEFAULT_CONSTRUCTOR_RBTREE, test_1) {
   s21::RBTree<NotDefaultConstructor> a;
   EXPECT_EQ(a.Size(), 0U);
+  a.Insert({"1", "2", "3"});
+  EXPECT_EQ(a.Size(), 1U);
+  a.Insert({"9", "8", "7"});
+  EXPECT_EQ((*a.begin()).sum(), "123");
+  EXPECT_EQ((*++a.begin()).sum(), "987");
 }
 
 TEST(CONSTRUCTOR_RBTREE, test_2) {

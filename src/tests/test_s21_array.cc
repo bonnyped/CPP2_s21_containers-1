@@ -1,5 +1,6 @@
-#include "s21_test_containers.h"
 #include <array>
+
+#include "s21_test_containers.h"
 using namespace std;
 
 TEST(Constructors, default_constuctor_1) {
@@ -34,8 +35,7 @@ TEST(Constructors, copy_constructor) {
   int count[4]{0, 1, 2, 3};
   array<double, 4> a{1.1233123112314, 2.12312312, 3.425363, 4.2335436};
   array<double, 4> b = a;
-  s21::array<double, 4> c{1.1233123112314, 2.12312312, 3.425363,
-                                4.2335436};
+  s21::array<double, 4> c{1.1233123112314, 2.12312312, 3.425363, 4.2335436};
   s21::array<double, 4> d = c;
   for (auto elem : count) EXPECT_DOUBLE_EQ(b[elem], d[elem]);
 }
@@ -107,7 +107,7 @@ TEST(Array_Capacity, size) {
   EXPECT_TRUE(b.size() == 10);
 }
 
-TEST(Array_Capacity, max_size) {  
+TEST(Array_Capacity, max_size) {
   s21::array<string, 10> b;
   EXPECT_TRUE(b.max_size() == 10);
 }
@@ -118,8 +118,7 @@ TEST(Array_Modifiers, swap) {
   s21::array<string, 3> b{"number_1", "number_2", "number_3"};
   s21::array<string, 3> c;
   c.swap(a);
-  for (auto elem : count) 
-    EXPECT_EQ(b[elem], c[elem]);
+  for (auto elem : count) EXPECT_EQ(b[elem], c[elem]);
 }
 
 TEST(Array_Modifiers, fill) {
@@ -127,7 +126,5 @@ TEST(Array_Modifiers, fill) {
   s21::array<string, 3> a;
   s21::array<string, 3> b{"number_1", "number_1", "number_1"};
   a.fill("number_1");
-  for (auto elem : count) 
-    EXPECT_EQ(a[elem], b[elem]);
+  for (auto elem : count) EXPECT_EQ(a[elem], b[elem]);
 }
-

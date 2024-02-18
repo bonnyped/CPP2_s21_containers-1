@@ -1,68 +1,75 @@
 #include <iostream>
 #include <limits>
-
+#include <utility>
 namespace s21 {
 template <class T>
 class vector {
- private:
+ public:
   using value_type = T;
   using reference = T &;
   using const_reference = const T &;
   using size_type = std::size_t;
-  size_type capacity_;
-  size_type size_;
-  value_type *arr_;
 
+ private:
   template <bool IsConst>
   class v_iterator {
    private:
     using pointer_type = std::conditional_t<IsConst, const T *, T *>;
     using reference_type = std::conditional_t<IsConst, const T &, T &>;
     using value_type = std::conditional_t<IsConst, const T, T>;
-    pointer_type ptr;
     // нужно ли определить size_typeype????
 
    public:
-    v_iterator(pointer_type ptr) : ptr(ptr) {}
+    v_iterator(pointer_type ptr)
+        : ptr_(ptr) {
+    }  // explicit = ошибки связанные с арифиетическими операциями с итераторами
     v_iterator(const v_iterator &) = default;
 
-    pointer_type get_ptr() { return ptr; }
+    pointer_type get_ptr() { return ptr_; }
 
-    bool operator!=(const v_iterator &other) { return this->ptr != other.ptr; }
-    bool operator==(const v_iterator &other) { return this->ptr == other.ptr; }
+    bool operator!=(const v_iterator &other) {
+      return this->ptr_ != other.ptr_;
+    }
+    bool operator==(const v_iterator &other) {
+      return this->ptr_ == other.ptr_;
+    }
 
-    value_type operator*() { return *ptr; }
+    const_reference operator*() { return *ptr_; }  // изменил на const_reference
 
     v_iterator operator++() {
-      ++ptr;
+      ++ptr_;
       return *this;
     }
 
     v_iterator operator++(int) {
       v_iterator copy = *this;
-      ++ptr;
+      ++ptr_;
       return copy;
     }
 
     v_iterator &operator--() {
-      --ptr;
+      --ptr_;
       return *this;
     }
     const v_iterator operator--(int) {
       v_iterator copy = *this;
 
-      --ptr;
+      --ptr_;
       return copy;
     }
-    pointer_type operator->() { return ptr; }
-    pointer_type operator+(size_type _offset_) { return ptr + _offset_; }
-    pointer_type operator-(size_type _offset_) { return ptr - _offset_; }
+    pointer_type operator->() { return ptr_; }
+    pointer_type operator+(size_type _offset_) { return ptr_ + _offset_; }
+    pointer_type operator-(size_type _offset_) { return ptr_ - _offset_; }
     size_type operator-(v_iterator reduced) {
-      return &ptr - &reduced.ptr;
+      return &ptr_ - &reduced.ptr;
     }  // необходимо убедиться, что с константными указателями тоже работает
+
+   private:
+    pointer_type ptr_;
   };
 
-  vector<value_type> &operator=(const vector<value_type> &v) {
+ public:
+  vector &operator=(const vector &v) {
     if (*this != v) {
       if (capacity_ < v.capacity_) {
         capacity_ = v.capacity_;
@@ -77,7 +84,7 @@ class vector {
     return *this;
   }
 
-  vector<value_type> &operator=(std::initializer_list<value_type> ilist) {
+  vector &operator=(std::initializer_list<value_type> ilist) {
     size_type count = 0;
     size_ = ilist.size();
     arr_ == nullptr ? arr_ = new value_type[capacity_]() : arr_;
@@ -87,7 +94,7 @@ class vector {
     return *this;
   }
 
-  bool operator!=(vector<value_type> const &v) { return &(*this) != &(v); }
+  bool operator!=(vector const &v) { return &(*this) != &(v); }
 
  public:
   using iterator = v_iterator<false>;
@@ -125,7 +132,7 @@ class vector {
     size_type count = 0;
     if (capacity_ > 0) arr_ = new value_type[capacity_]();
     for (auto elem : v) arr_[count++] = elem;
-  };
+  }
 
   vector(vector &&v) noexcept { *this = std::move(v); };
 
@@ -141,16 +148,16 @@ class vector {
     for (auto index = 0; index < size_; ++index, ++first) {
       arr_[index] = *first;
     }
-  };
+  }
 
   ~vector() {
     delete[] arr_;
     arr_ = nullptr;
     capacity_ = 0;
     size_ = 0;
-  };
+  }
 
-  vector<value_type> &operator=(vector<value_type> &&v) noexcept {
+  vector &operator=(vector &&v) noexcept {
     capacity_ = v.capacity_;
     size_ = v.size_;
     arr_ = v.arr_;
@@ -166,7 +173,7 @@ class vector {
       throw std::out_of_range(
           "Требуемая позиция находится вне определенного вектора!\n");
     return arr_[pos];
-  };
+  }
 
   reference operator[](size_type pos) { return &arr_; }
   const_reference back() { return arr_[size_ - 1]; }
@@ -236,22 +243,22 @@ class vector {
       }
     }
     size_ -= 1;
-  };
+  }
 
   void push_back(const_reference value) {
     size_type position = size_;
     reserve(size_ + 1);
     arr_[position] = value;
     if (position == size_) ++size_;
-  };
+  }
 
-  void pop_back() { erase(end() - 1); };
+  void pop_back() { erase(end() - 1); }
 
   void swap(vector &other) {
     vector tmp = std::move(other);
     other = std::move(*this);
     *this = std::move(tmp);
-  };
+  }
 
   // бонусная часть
   template <typename... Args>
@@ -279,6 +286,10 @@ class vector {
       }
     }
   }
+
+ private:
+  size_type capacity_;
+  size_type size_;
+  value_type *arr_;
 };
 };  // namespace s21
-

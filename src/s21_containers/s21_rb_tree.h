@@ -431,8 +431,8 @@ class RBTree {
         auto [it, status] = Insert(head_->link_[parent], new_node, true);
         if (status == true) {
           vector_tree.push_back({it, status});
-        } 
-      } 
+        }
+      }
     }
     if (!vector_tree.size()) vector_tree.push_back(init);
     //////// TEST RBTREE
