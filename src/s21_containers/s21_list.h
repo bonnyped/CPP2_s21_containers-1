@@ -16,7 +16,7 @@ class list {
     Node *prev_ = nullptr;  //??
     Node *next_ = nullptr;  //??
     T value_;
-    Node() noexcept : prev_(this), next_(this) {}
+    Node() noexcept : prev_(this), next_(this), value_(value_type{}) {}
 
     explicit Node(const_reference value) noexcept
         : prev_(nullptr), next_(nullptr), value_(value) {}

@@ -29,6 +29,7 @@ class vector {
     pointer_type get_ptr() { return ptr; }
 
     bool operator!=(const v_iterator &other) { return this->ptr != other.ptr; }
+    bool operator==(const v_iterator &other) { return this->ptr == other.ptr; }
 
     value_type operator*() { return *ptr; }
 

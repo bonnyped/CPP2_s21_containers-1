@@ -4,12 +4,6 @@ TEST(S21_VECTOR, s21_not_default_constructor_test_0) {
   s21::vector<NotDefaultConstructor> vector;
   EXPECT_EQ(vector.size(), 0U);
   EXPECT_TRUE(vector.empty());
-  //    vector.push_back({"1","2","3"});
-  //    vector.push_back({"9","8","7"});
-  //    EXPECT_EQ((*vector.begin()).sum(), "123");
-  //    EXPECT_EQ((*++vector.begin()).sum(), "987");
-  //    EXPECT_EQ(vector.size(), 2U);
-  //    s21::vector<NotDefaultConstructor> vector_2{{"1","2","3"}};
 }
 
 TEST(S21_VECTOR, s21_default_constructor_test_1) {
@@ -25,9 +19,9 @@ TEST(S21_VECTOR, s21_copy_constructor_test_2) {
   vector_a.push_back(999);
   vector_a.push_back(888);
   vector_a.push_back(777);
-  // s21::vector<int> vector_b(vector_a);
+  s21::vector<int> vector_b(vector_a);
   EXPECT_EQ(vector_a.size(), 3U);
-  // EXPECT_EQ(vector_b.size(), 3U);
+  EXPECT_EQ(vector_b.size(), 3U);
 }
 
 TEST(S21_VECTOR, s21_move_constructor_test_3) {
@@ -49,9 +43,9 @@ TEST(S21_VECTOR, s21_copy_operator_eq_test_4) {
   vector_a.push_back(999);
   vector_a.push_back(888);
   vector_a.push_back(777);
-  // s21::vector<int> vector_b = vector_a;
+  s21::vector<int> vector_b = vector_a;
   EXPECT_EQ(vector_a.size(), 3U);
-  // EXPECT_EQ(vector_b.size(), 3U);
+  EXPECT_EQ(vector_b.size(), 3U);
 }
 
 TEST(S21_VECTOR, s21_move_operator_eq_test_5) {
@@ -170,8 +164,6 @@ TEST(S21_VECTOR, s21_pop_back_test_10) {
   EXPECT_EQ(*--vector_a.end(), 1);
   vector_a.pop_back();
   EXPECT_TRUE(vector_a.empty());
-  // vector_a.pop_back(); // like std::vector висит, size_ == 0 для него ничего
-  // не значит?
 }
 
 TEST(S21_VECTOR, s21_pop_back_string_test_11) {
@@ -207,8 +199,6 @@ TEST(S21_VECTOR, s21_pop_back_string_test_11) {
   EXPECT_EQ(*--vector_a.end(), "1");
   vector_a.pop_back();
   EXPECT_TRUE(vector_a.empty());
-  // vector_a.pop_back(); // std::vector : set a breakpoint in
-  // malloc_error_break to debug
 }
 
 TEST(S21_VECTOR, s21_erase_string_test_12) {
@@ -280,13 +270,12 @@ TEST(S21_VECTOR, s21_not_default_constructor_test_16) {
 }
 
 TEST(S21_VECTOR, reserve_test_17) {
-    s21::vector<std::string> vector_a{"number_1", "number_2", "number_3"};
-    std::size_t size__ = vector_a.size();
-    vector_a.reserve(101);
-    EXPECT_EQ(size__, vector_a.size());
-    EXPECT_EQ(vector_a.capacity(), 202);
-    vector_a.shrink_to_fit();
-    EXPECT_EQ(vector_a.capacity(), size__);
-    EXPECT_EQ(size__, vector_a.size());
+  s21::vector<std::string> vector_a{"number_1", "number_2", "number_3"};
+  std::size_t size__ = vector_a.size();
+  vector_a.reserve(101);
+  EXPECT_EQ(size__, vector_a.size());
+  EXPECT_EQ(vector_a.capacity(), 202);
+  vector_a.shrink_to_fit();
+  EXPECT_EQ(vector_a.capacity(), size__);
+  EXPECT_EQ(size__, vector_a.size());
 }
-

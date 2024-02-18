@@ -13,7 +13,7 @@ enum NamePointer : std::int8_t { left, right, parent };
 template <typename Key>
 struct BaseNode {
   bool color_;
-  BaseNode *link_[3];  // ?заменить??
+  BaseNode *link_[3]{};  // ?заменить??
   BaseNode() {
     color_ = Red;
     link_[left] = nullptr;
@@ -33,7 +33,7 @@ struct Node : public BaseNode<Key> {
   using base_node = BaseNode<value_type>;
   value_type key_;
   Node() = delete;
-  explicit Node(const_reference key) : base_node(), key_(key) {}
+  explicit Node(const_reference key) : key_(key) {}
   Node(color_type color, const_reference key) : key_(key) {
     base_node::color_ = color;
   }
@@ -423,6 +423,7 @@ class RBTree {
   template <typename... Args>
   std::vector<std::pair<iterator, bool>> InsertManyUnique(Args &&...args) {
     std::vector<std::pair<iterator, bool>> vector_tree;
+    std::pair<iterator, bool> init(begin(), false);
     vector_tree.reserve(sizeof...(args));
     for (auto item : {std::forward<Args>(args)...}) {
       if (Find(item) == End()) {
@@ -430,12 +431,10 @@ class RBTree {
         auto [it, status] = Insert(head_->link_[parent], new_node, true);
         if (status == true) {
           vector_tree.push_back({it, status});
-        } else {
-          delete new_node;
-          new_node = nullptr;
-        }
-      }
+        } 
+      } 
     }
+    if (!vector_tree.size()) vector_tree.push_back(init);
     //////// TEST RBTREE
     // #if defined(S21_TEST_CONTAINERS_H_)
     //     CheckRedBlackTreeValidation(head_->link_[parent]);

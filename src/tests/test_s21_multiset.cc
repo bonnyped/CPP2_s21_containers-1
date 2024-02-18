@@ -804,7 +804,7 @@ TEST(MULTISET, ERASE_TEST_8) {
   }
   while (!a.empty()) {
     a.erase(a.begin());
-    a.erase(*--a.end());
+    a.erase(--a.end());
   }
   EXPECT_EQ(a.size(), 0U);
 }
@@ -855,12 +855,12 @@ TEST(MULTISET, INSERT_MANY_TEST_11) {
   EXPECT_TRUE(!a.contains(13));
   a.clear();
   EXPECT_FALSE(a.contains(12));
-  EXPECT_TRUE(a.size() == 0U);
+  EXPECT_EQ(a.size(), 0U);
   EXPECT_TRUE(b.contains('f'));
   EXPECT_TRUE(!b.contains('h'));
   b.clear();
   b.clear();
-  EXPECT_TRUE(b.size() == 0U);
+  EXPECT_EQ(b.size(), 0U);
 }
 
 TEST(MULTISET, SWAP_TEST_12) {
