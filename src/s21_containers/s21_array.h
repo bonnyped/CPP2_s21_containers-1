@@ -6,6 +6,7 @@
 // ноэксепт и почему? чем отличается цбегин от бегин?
 
 namespace s21 {
+
 template <class T, std::size_t N>
 class array {
  public:
@@ -15,6 +16,7 @@ class array {
   using iterator = T *;
   using const_iterator = const T *;
   using size_type = std::size_t;
+  struct array_n;
 
   //  основные публичные методы для взаимодействия с классом:
   array() noexcept = default;
@@ -45,7 +47,7 @@ class array {
 
   // публичные методы для доступа к элементам класса:
   reference at(size_type pos) {
-    if (pos < 0 || pos > N - 1)
+    if (size() == 0U || pos > N - 1)
       throw std::out_of_range(
           "Введенная позиция находится за пределами массива!");
     return arr_[pos];
@@ -83,8 +85,37 @@ class array {
   }
 
  public:
-  value_type arr_[N == 0U ? 1U : N];
+  value_type arr_[N];
 };
+
+template <typename T>
+class array<T, 0> {
+ public:
+  using value_type = T;
+  using value_type_pointer = T *;
+  using reference = T &;
+  using const_reference = const T &;
+  using iterator = T *;
+  using const_iterator = const T *;
+  using difference_type = std::ptrdiff_t;
+  using size_type = std::size_t;
+  struct Type {};
+
+  bool empty() const noexcept { return true; }
+  size_type size() const noexcept { return 0; }
+  reference at(size_type pos) {
+    throw std::out_of_range(
+        "Введенная позиция находится за пределами массива!");
+    return *(static_cast<value_type_pointer>(nullptr));
+  }
+  const_reference front() { return at(0); }
+  const_reference back() { return at(size() - 1); }
+  iterator begin() noexcept { return 0; }
+  iterator end() noexcept { return 0; }
+  const_iterator begin() const noexcept { return 0; }
+  const_iterator end() const noexcept { return 0; }
+};
+
 }  // namespace s21
 
 #endif  //  SRC_S21_CONTAINERS_S21_ARRAY_H_

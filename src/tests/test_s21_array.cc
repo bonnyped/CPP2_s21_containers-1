@@ -36,16 +36,16 @@ TEST(Constructors, copy_constructor) {
   array<double, 4> a{1.1233123112314, 2.12312312, 3.425363, 4.2335436};
   array<double, 4> b = a;
   s21::array<double, 4> c{1.1233123112314, 2.12312312, 3.425363, 4.2335436};
-  s21::array<double, 4> d = std::move(c);
+  s21::array<double, 4> d = c;
   for (auto elem : count) EXPECT_DOUBLE_EQ(b[elem], d[elem]);
 }
 
 TEST(Constructors, move_constructor) {
   int count[4]{0, 1, 2, 3};
   array<double, 4> a{1., 2., 3., 4.};
-  array<double, 4> b = std::move(a);
+  array<double, 4> b = a;
   s21::array<double, 4> c{1., 2., 3., 4.};
-  s21::array<double, 4> d = std::move(c);
+  s21::array<double, 4> d = c;
   for (auto elem : count) EXPECT_EQ(b[elem], d[elem]);
 }
 
@@ -98,15 +98,27 @@ TEST(Element_Access, data) {
 }
 
 TEST(Array_Capacity, emty) {
-  s21::array<std::string, 0> b;
-  std::array<std::string, 0> c;
-  // std::cout << sizeof(b) << '\n';
-  // std::cout << sizeof(c) << '\n';
+  s21::array<int, 0> b;
+  s21::array<NotDefaultConstructor, 0> const c{};
+  auto it = b.begin();
+  auto it2 = b.end();
+  EXPECT_TRUE(it == it2);
+  std::cout << sizeof(b) << '\n';
+  std::cout << sizeof(c) << '\n';
   EXPECT_TRUE(b.empty());
+  ASSERT_THROW(b.at(0), std::out_of_range);
+  ASSERT_TRUE(c.begin() == c.end());
+  ASSERT_THROW(b.front(), std::out_of_range);
+  ASSERT_THROW(b.back(), std::out_of_range);
+  ASSERT_TRUE(c.size() == 0U);
+  for (auto elem : b) {
+    std::cout << elem << ' ';
+  }
+  // b[0] = 12;
 }
 
 TEST(Array_Capacity, size) {
-  array<string, 10> b;
+  s21::array<std::string, 10> b;
   EXPECT_TRUE(b.size() == 10);
 }
 

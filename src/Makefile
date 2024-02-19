@@ -115,7 +115,7 @@ else
 	CK_FORK=no valgrind --leak-check=full -s --track-origins=yes --log-file=leak.log ./test 
 endif	
 
-docker: docker_clean
+docker: clean
 	docker build -f Dockerfile  -t test_containers:cpp . # --no-cache
 	docker run -t --name containers_cpp  test_containers:cpp 
 	docker cp containers_cpp:/home/report/ .
