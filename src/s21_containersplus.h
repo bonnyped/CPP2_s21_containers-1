@@ -1,7 +1,7 @@
-#ifndef S21_CONTAINERSPLUS_H_
-#define S21_CONTAINERSPLUS_H_
+#ifndef SRC_S21_CONTAINERSPLUS_H_
+#define SRC_S21_CONTAINERSPLUS_H_
 
-// #include "s21_containers/s21_array.h"
+#include "s21_containers/s21_array.h"
 #include "s21_containers/s21_multiset.h"
 
-#endif  // S21_CONTAINERSPLUS_H_
+#endif  // SRC_S21_CONTAINERSPLUS_H_

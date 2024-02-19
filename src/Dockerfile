@@ -26,7 +26,7 @@ RUN cp /googletest/build/lib/libgtest_main.a .
 RUN cp /usr/lib/aarch64-linux-gnu/libgtest.a .
 RUN  cp /usr/lib/aarch64-linux-gnu/*.a  .
 
-ENTRYPOINT  make test_set    && make leak
+ENTRYPOINT  make test  && make lcov  && make leak
 # && make gcov_report && chmod 777 ./report && make leak && cat leak.log && echo "OK-OK"
 
 # CMD [ "./s21_matrix_oop.a" ]

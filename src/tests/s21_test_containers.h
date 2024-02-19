@@ -1,8 +1,9 @@
-#ifndef S21_TEST_CONTAINERS_H_
-#define S21_TEST_CONTAINERS_H_
+#ifndef SRC_TESTS_S21_TEST_CONTAINERS_H_
+#define SRC_TESTS_S21_TEST_CONTAINERS_H_
 #include <gtest/gtest.h>
 
 #include <iostream>
+#include <string>
 
 #include "../s21_containers/s21_array.h"
 #include "../s21_containers/s21_list.h"
@@ -31,4 +32,4 @@ class NotDefaultConstructor {
   std::string z_;
 };
 
-#endif
+#endif  //  SRC_TESTS_S21_TEST_CONTAINERS_H_

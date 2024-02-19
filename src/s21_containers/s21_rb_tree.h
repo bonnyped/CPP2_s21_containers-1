@@ -1,29 +1,34 @@
-#ifndef S21_CONTAINERS_S21_CONTAINERS_S21_RB_TREE_H_
-#define S21_CONTAINERS_S21_CONTAINERS_S21_RB_TREE_H_
+#ifndef SRC_S21_CONTAINERS_S21_CONTAINERS_S21_RB_TREE_H_
+#define SRC_S21_CONTAINERS_S21_CONTAINERS_S21_RB_TREE_H_
+
 #include <functional>
 #include <iostream>
+#include <limits>
 #include <utility>
 #include <vector>
+
 namespace s21 {
 
 enum NodeColor : bool { Red, Black };
 enum NamePointer : std::int8_t { left, right, parent };
 
-//// BASE NODE
+/// @brief  структура базового узла для head_ и nil_
+/// @tparam Key тип хранимого объекта(?)
 template <typename Key>
 struct BaseNode {
   bool color_;
-  BaseNode *link_[3]{};  // ?заменить??
+  BaseNode *link_[3];  //??
   BaseNode() {
     color_ = Red;
-    link_[left] = nullptr;
-    link_[right] = nullptr;
-    link_[parent] = nullptr;
+    link_[left] = this;
+    link_[right] = this;
+    link_[parent] = this;
   }
   virtual ~BaseNode() {}  // ????   !!!!!!!!!!!!!!!!!!!!!
 };
 
-//// NODE
+/// @brief структура со значением узла унаследованная от базовой
+/// @tparam Key тип хранимого объекта
 template <typename Key>
 struct Node : public BaseNode<Key> {
   using value_type = Key;
@@ -40,7 +45,9 @@ struct Node : public BaseNode<Key> {
   explicit Node(value_type &&key) : key_(std::move(key)) {}
 };
 
-/////ITERATOR
+/// @brief Класс итератор
+/// @tparam Key = тип хранимого объекта
+/// @tparam IsConst = true(const_iterator)
 template <typename Key, bool IsConst>
 class RBTreeIterator {
  public:
@@ -57,23 +64,20 @@ class RBTreeIterator {
   friend class RBTreeIterator<Key, true>;
 
  private:
-  base_node ptr_;
-
- private:
   template <typename, typename>
   friend class RBTree;
 
-  bool is_not_nil_(const base_node ptr) { return (ptr->link_[right]) != (ptr); }
+  bool IsNotNil_(const base_node ptr) { return (ptr->link_[right]) != (ptr); }
 
-  bool parent_left_child(const base_node ptr) {
+  bool ParentLeftChild(const base_node ptr) {
     return (ptr->link_[parent]->link_[left]) == (ptr);
   }
 
-  bool parent_right_child(const base_node ptr) {
+  bool ParentRightChild(const base_node ptr) {
     return (ptr->link_[parent]->link_[right]) == (ptr);
   }
 
-  bool is_head_or_root(const base_node ptr) {
+  bool IsHeadOrRoot(const base_node ptr) {
     return (ptr == ptr->link_[parent]->link_[parent]);
   }
 
@@ -83,7 +87,7 @@ class RBTreeIterator {
   reference operator*() const { return static_cast<node>(ptr_)->key_; }
 
   value_type_pointer operator->() const {
-    return &static_cast<node>(ptr_)->key_;
+    return &(static_cast<node>(ptr_)->key_);
   }
 
   bool operator==(const RBTreeIterator &rhv) { return ptr_ == rhv.ptr_; }
@@ -92,18 +96,18 @@ class RBTreeIterator {
   bool operator!=(const RBTreeIterator &rhv) { return ptr_ != rhv.ptr_; }
 
   RBTreeIterator &operator++() {
-    if (is_head_or_root(ptr_) && ptr_->color_ == Red) {
+    if (IsHeadOrRoot(ptr_) && ptr_->color_ == Red) {
       ptr_ = ptr_->link_[left];
-    } else if (is_not_nil_((this->ptr_->link_[right]))) {
+    } else if (IsNotNil_((this->ptr_->link_[right]))) {
       ptr_ = ptr_->link_[right];
-      while (is_not_nil_((this->ptr_->link_[left]))) {
+      while (IsNotNil_((this->ptr_->link_[left]))) {
         ptr_ = ptr_->link_[left];
       }
-    } else if (is_not_nil_(this->ptr_)) {
-      while ((!is_head_or_root(ptr_)) && !parent_left_child(this->ptr_)) {
+    } else if (IsNotNil_(this->ptr_)) {
+      while ((!IsHeadOrRoot(ptr_)) && !ParentLeftChild(this->ptr_)) {
         ptr_ = ptr_->link_[parent];
       }
-      if (is_not_nil_(this->ptr_)) {
+      if (IsNotNil_(this->ptr_)) {
         ptr_ = ptr_->link_[parent];
       }
     }
@@ -113,17 +117,17 @@ class RBTreeIterator {
   RBTreeIterator &operator--() {
     if (ptr_ == ptr_->link_[parent]->link_[parent] && ptr_->color_ == Red) {
       ptr_ = ptr_->link_[right];
-    } else if (is_not_nil_((this->ptr_->link_[left]))) {
+    } else if (IsNotNil_((this->ptr_->link_[left]))) {
       ptr_ = ptr_->link_[left];
-      while (is_not_nil_((this->ptr_->link_[right]))) {
+      while (IsNotNil_((this->ptr_->link_[right]))) {
         ptr_ = ptr_->link_[right];
       }
-    } else if (is_not_nil_(this->ptr_)) {
+    } else if (IsNotNil_(this->ptr_)) {
       while ((ptr_ != (ptr_->link_[parent]->link_[parent])) &&
-             !parent_right_child(this->ptr_)) {
+             !ParentRightChild(this->ptr_)) {
         ptr_ = ptr_->link_[parent];
       }
-      if (is_not_nil_(this->ptr_)) {
+      if (IsNotNil_(this->ptr_)) {
         ptr_ = ptr_->link_[parent];
       }
     }
@@ -141,13 +145,16 @@ class RBTreeIterator {
     --(*this);
     return copy_this;
   }
+
+ private:
+  base_node ptr_;
 };
 
-///////// RBTREE
+/// @brief Шаблонный Класс Красно-черное дерево
+/// @tparam Key  тип хранимого объекта
+/// @tparam Comp  Функциональный объект для выполнения сравнений
 template <typename Key, typename Comp = std::less<Key>>
 class RBTree {
-  // private:
-  // class RBTreeIterator<Key, IsConst>;
  public:
   using value_type = Key;
   using reference = Key &;
@@ -165,12 +172,6 @@ class RBTree {
  public:
   // конструктор по умолчанию
   RBTree() : head_(new base_node{}), nil_(new base_node{}) {
-    head_->link_[left] = head_;
-    head_->link_[right] = head_;
-    head_->link_[parent] = head_;
-    nil_->link_[left] = nil_;
-    nil_->link_[right] = nil_;
-    nil_->link_[parent] = nil_;
     head_->color_ = Red;
     nil_->color_ = Black;
     size_ = 0;
@@ -183,14 +184,14 @@ class RBTree {
   }
 
   // конструктор копирования
-  RBTree(const_tree_type_reference other) : RBTree() {
+  explicit RBTree(const_tree_type_reference other) : RBTree() {
     if (other.size_ > 0) {
       this->CopyOtherTree(other);
     }
   }
 
   // конструктор перемещения
-  RBTree(tree_type &&other) noexcept : RBTree() { this->Swap(other); }
+  explicit RBTree(tree_type &&other) noexcept : RBTree() { this->Swap(other); }
 
   // деструктор
   ~RBTree() {
@@ -212,7 +213,7 @@ class RBTree {
   }
 
   // оператор присваивания перемещением
-  tree_type_reference operator=(tree_type &&other) {
+  tree_type_reference operator=(tree_type &&other) noexcept {
     if (this != &other) {
       this->Clear();
       this->Swap(other);
@@ -265,9 +266,6 @@ class RBTree {
     } else {
       node *new_node = new node{key};
       status = Insert((head_->link_[parent]), new_node, false);
-      if (status.second == false) {
-        delete new_node;
-      }
     }
     return status;
   }
@@ -278,9 +276,9 @@ class RBTree {
       delete node_del;
     }
     if (head_->link_[parent] != head_) {
-      // #if defined(S21_TEST_CONTAINERS_H_)
-      //       CheckRedBlackTreeValidation(head_->link_[parent]);
-      // #endif
+#if defined(SRC_TESTS_S21_TEST_CONTAINERS_H_)
+      CheckRedBlackTreeValidation(head_->link_[parent]);
+#endif
     }
   }
 
@@ -291,11 +289,9 @@ class RBTree {
       delete node_del;
     }
     if (head_->link_[parent] != head_) {
-      //////// TEST RBTREE
-      // #if defined(S21_TEST_CONTAINERS_H_)
-      //       CheckRedBlackTreeValidation(head_->link_[parent]);
-      // #endif
-      ////////
+#if defined(SRC_TESTS_S21_TEST_CONTAINERS_H_)
+      CheckRedBlackTreeValidation(head_->link_[parent]);
+#endif
     }
   }
 
@@ -316,7 +312,7 @@ class RBTree {
     return iterator{result};
   }
 
-  size_type Size() { return size_; }
+  size_type Size() const { return size_; }
 
   size_type MaxSize() const noexcept {
     return (std::numeric_limits<size_type>::max()) / (sizeof(tree_type));
@@ -331,8 +327,9 @@ class RBTree {
       if (comp_(key, static_cast<node *>(root)->key_)) {
         result = root;
         root = root->link_[left];
-      } else
+      } else {
         root = root->link_[right];
+      }
     }
     return iterator(result);
   }
@@ -344,8 +341,9 @@ class RBTree {
       if (!comp_(static_cast<node *>(root)->key_, key)) {
         result = root;
         root = root->link_[left];
-      } else
+      } else {
         root = root->link_[right];
+      }
     }
     return iterator(result);
   }
@@ -403,7 +401,7 @@ class RBTree {
     }
   }
 
-  void Clear() {
+  void Clear() noexcept {
     if (head_) {
       Destroy(head_->link_[parent]);
       head_->link_[left] = head_;
@@ -434,12 +432,9 @@ class RBTree {
         }
       }
     }
-    if (!vector_tree.size()) vector_tree.push_back(init);
-    //////// TEST RBTREE
-    // #if defined(S21_TEST_CONTAINERS_H_)
-    //     CheckRedBlackTreeValidation(head_->link_[parent]);
-    // #endif
-    ////////
+    if (!vector_tree.size()) {
+      vector_tree.push_back(init);
+    }
     return vector_tree;
   }
 
@@ -452,16 +447,8 @@ class RBTree {
       auto [it, status] = Insert(head_->link_[parent], new_node, false);
       if (status == true) {
         vector_tree.push_back({it, status});
-      } else {
-        delete new_node;
-        new_node = nullptr;
       }
     }
-    //////// TEST RBTREE
-    // #if defined(S21_TEST_CONTAINERS_H_)
-    //     CheckRedBlackTreeValidation(head_->link_[parent]);
-    // #endif
-    ////////
     return vector_tree;
   }
 
@@ -480,11 +467,10 @@ class RBTree {
       head_->link_[left] = FindMinElement(Root());
       head_->link_[right] = FindMaxElement(Root());
     }
-    //////// TEST RBTREE
-    // #if defined(S21_TEST_CONTAINERS_H_)
-    //     CheckRedBlackTreeValidation(head_->link_[parent]);
-    // #endif
-    ////////
+
+#if defined(SRC_TESTS_S21_TEST_CONTAINERS_H_)
+    CheckRedBlackTreeValidation(head_->link_[parent]);
+#endif
   }
 
   base_node *CreateCopyTree(base_node *this_node, base_node *parent_n,
@@ -508,7 +494,6 @@ class RBTree {
     } catch (...) {
       Destroy(copy_node);
       throw;
-      ;
     }
     copy_node->link_[parent] = parent_n;
     return copy_node;
@@ -544,14 +529,7 @@ class RBTree {
         if (unique_el == false) {
           next_node = static_cast<node *>(next_node->link_[right]);
         } else {
-          //   if (comp_(next_node->key_, new_node->key_)) {
           next_node = static_cast<node *>(next_node->link_[right]);
-          //   } else {
-          // std::cerr << "Запрещена вставка неуникальных ключей\n";
-          // std::cerr << "Ключ со значением " << new_node->key_
-          //           << " уже есть в дереве\n\n";
-          // return nullptr;
-          //   }
         }
       }
     }
@@ -559,15 +537,11 @@ class RBTree {
   }
 
   std::pair<iterator, bool> Insert(base_node *root, node *new_node,
-                                   bool unique_el) {
+                                   bool unique_el) noexcept {
     if (root == head_) {
       InsertRoot(new_node);
     } else {
       node *parent_node = FindInsertPosition(new_node, unique_el);
-      //   if (parent_node == nullptr) {
-      //     // ошибка, попытка вставить узел с ключом который уже усть в дереве
-      //     return {iterator(head_), false};
-      //   }
       new_node->link_[parent] = parent_node;
       if (comp_(new_node->key_, parent_node->key_)) {
         parent_node->link_[left] = new_node;
@@ -590,11 +564,9 @@ class RBTree {
       }
     }
     size_ += 1;
-    //////// TEST RBTREE
-    // #if defined(S21_TEST_CONTAINERS_H_)
-    //     CheckRedBlackTreeValidation(head_->link_[parent]);
-    // #endif
-    ////////
+#if defined(SRC_TESTS_S21_TEST_CONTAINERS_H_)
+    CheckRedBlackTreeValidation(head_->link_[parent]);
+#endif
     return {iterator(new_node), true};
   }
 
@@ -610,18 +582,18 @@ class RBTree {
     }
   }
 
-  size_type CheckRedBlackTreeValidation(base_node *root) {
+  size_type CheckRedBlackTreeValidation(base_node *root) noexcept {
     size_type left_depth = 0U;
     size_type right_depth = 0U;
-    if (root == nil_ || root == head_)
+    if (root == nil_ || root == head_) {
       return 1;
-    else {
+    } else {
       base_node *left_subtree = root->link_[left];
       base_node *right_subtree = root->link_[right];
       if (ThisNodeRed(root)) {
         if (ThisNodeRed(left_subtree) || ThisNodeRed(right_subtree)) {
-          std::cerr << "\nКРАСНОЕ НАРУШЕНИЕ\n";
-          throw "КРАСНОЕ НАРУШЕНИЕ";
+          std::cerr << "\n\n\nКРАСНОЕ НАРУШЕНИЕ\n\n\n";
+          // throw "КРАСНОЕ НАРУШЕНИЕ";
           return 0;
         }
       }
@@ -633,13 +605,13 @@ class RBTree {
           (right_subtree != nil_ &&
            comp_(static_cast<node *>(right_subtree)->key_,
                  static_cast<node *>(root)->key_))) {
-        std::cout << "\n\n\nБИНАРНОЕ НАРУШЕНИЕ\n\n\n";
-        throw "БИНАРНОЕ НАРУШЕНИЕ";
+        // throw "БИНАРНОЕ НАРУШЕНИЕ";
+        std::cerr << "\n\n\nБИНАРНОЕ НАРУШЕНИЕ\n\n\n";
         return 0;
       }
       if (left_depth != 0 && right_depth != 0 && left_depth != right_depth) {
-        std::cerr << "\nЧЕРНОЕ НАРУШЕНИЕ\n";
-        throw "ЧЕРНОЕ НАРУШЕНИЕ2";
+        // throw "ЧЕРНОЕ НАРУШЕНИЕ2";
+        std::cerr << "\n\n\nЧЕРНОЕ НАРУШЕНИЕ\n\n\n";
         return 0;
       }
       if (left_depth != 0 && right_depth != 0)
@@ -879,7 +851,7 @@ class RBTree {
   }
 
   void UpdateMinMaxTreeElements(base_node *del_node) noexcept {
-    // min element rntree Begin()
+    // min element rbtree Begin()
     if (del_node == head_->link_[left]) {
       if (del_node->link_[right] != nil_) {
         head_->link_[left] = del_node->link_[right];
@@ -1000,10 +972,8 @@ class RBTree {
     base_node *G = n->link_[parent]->link_[parent];
     if (n->link_[parent] == G->link_[left]) {
       return G->link_[right];
-    } else if (n->link_[parent] == G->link_[right]) {
-      return G->link_[left];
     }
-    return nil_;
+    return G->link_[left];
   }
 
  private:
@@ -1015,4 +985,4 @@ class RBTree {
 
 }  // namespace s21
 
-#endif  // S21_CONTAINERS_S21_CONTAINERS_S21_RB_TREE_H_
+#endif  //  SRC_S21_CONTAINERS_S21_CONTAINERS_S21_RB_TREE_H_

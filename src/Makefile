@@ -82,7 +82,7 @@ gcov_report: clean
 
 lcov: 
 	# $(CC) -o test    tests/*.cc $(TEST_FLAGS) $(GFLAGS)
-	./test
+	# ./test
 	lcov --quiet --no-recursion --capture --directory . --output-file test.info
 	@lcov --quiet --no-recursion -r test.info '/usr/*' '*/v1/*'  ${SKIP_D}   -o test.info
 	genhtml -o ./report/ test.info
@@ -99,12 +99,18 @@ endif
 
 
 clang:
-	clang-format -n -style=google *.cc *.h 
+	clang-format -n -style=google *.h
+	clang-format -n -style=google tests/*.h
+	clang-format -n -style=google *.h
+	clang-format -n -style=google tests/*.cc 
+	clang-format -n -style=google s21_containers/*.h
 
 clangI:
-	clang-format -i -style=google *.cc *.h tests/*c tests/*h
-
-
+	clang-format -i -style=google *.h
+	clang-format -i -style=google tests/*.h
+	clang-format -i -style=google *.h
+	clang-format -i -style=google tests/*.cc 
+	clang-format -i -style=google s21_containers/*.h
 
 leak: 
 ifeq ($(OS),Darwin)
@@ -113,20 +119,14 @@ else
 	CK_FORK=no valgrind --leak-check=full -s --track-origins=yes --log-file=leak.log ./test 
 endif	
 
-docker:
+docker: docker_clean
 	docker build -f Dockerfile  -t test_containers:cpp . # --no-cache
 	docker run -t --name containers_cpp  test_containers:cpp 
-	# docker cp containers_cpp:/home/report/ .
+	docker cp containers_cpp:/home/report/ .
 	docker cp containers_cpp:/home/leak.log .
 	docker rm containers_cpp
 	docker rmi test_containers:cpp
+	
 docker_clean:
 	docker rm $$(docker ps -a -q) || true
 	docker rmi -f $$(docker images -q) || true
-# test_docker: clean
-# 	docker build  -f Dockerfile  -t test_matrix:cpp .
-# 	docker run -t --name matrix_cpp test_matrix:cpp
-# 	docker cp matrix_cpp:/code/report/ .
-# 	docker cp matrix_cpp:/code/leak.log .
-# 	docker rm matrix_cpp
-# 	docker rmi test_matrix:cpp
