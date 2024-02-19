@@ -75,23 +75,15 @@ class array {
 
   // публичные методы для изменения контейнера:
   void swap(array &other) noexcept {  // NOLINT
-    array tmp(other);
-    other = std::move(*this);
-    *this = std::move(tmp);
+    std::swap_ranges<iterator, iterator>(other.begin(), other.end(), begin());
   }
 
   void fill(const_reference value) {
     for (auto it = begin(); it != end(); ++it) *it = value;
   }
 
-  // array &operator=(const array &a) {
-  //   size_type count = 0;
-  //   for (auto elem : a) arr_[count++] = elem;
-  //   return *this;
-  // }
-
  public:
-  value_type arr_[N];
+  value_type arr_[N == 0U ? 1U : N];
 };
 }  // namespace s21
 

@@ -44,8 +44,8 @@ TEST(Constructors, move_constructor) {
   int count[4]{0, 1, 2, 3};
   array<double, 4> a{1., 2., 3., 4.};
   array<double, 4> b = std::move(a);
-  std::array<double, 4> c{1., 2., 3., 4.};
-  std::array<double, 4> d = std::move(c);
+  s21::array<double, 4> c{1., 2., 3., 4.};
+  s21::array<double, 4> d = std::move(c);
   for (auto elem : count) EXPECT_EQ(b[elem], d[elem]);
 }
 
@@ -64,7 +64,7 @@ TEST(Element_Access, at_1) {
 
 TEST(Element_Access, at_2) {
   s21::array<char, 1> b;
-  ASSERT_THROW(b[1] = 2, std::out_of_range);
+  ASSERT_THROW(b.at(1), std::out_of_range);
 }
 
 TEST(Element_Access, at_3) {
@@ -92,15 +92,18 @@ TEST(Element_Access, back_2) {
   EXPECT_EQ(&b.back(), &b.arr_[2]);
 }
 
-// TEST(Element_Access, data) {
-//   s21::array<char, 1> b{15};
-//   EXPECT_EQ(b.data().get_ptr(), b.begin().get_ptr());
-// }
+TEST(Element_Access, data) {
+  s21::array<char, 1> b{15};
+  EXPECT_EQ(b.data(), b.begin());
+}
 
-// TEST(Array_Capacity, emty) {
-//   s21::array<std::string, 0> b;
-//   EXPECT_TRUE(b.empty());
-// }
+TEST(Array_Capacity, emty) {
+  s21::array<std::string, 0> b;
+  std::array<std::string, 0> c;
+  // std::cout << sizeof(b) << '\n';
+  // std::cout << sizeof(c) << '\n';
+  EXPECT_TRUE(b.empty());
+}
 
 TEST(Array_Capacity, size) {
   array<string, 10> b;
@@ -128,6 +131,5 @@ TEST(Array_Modifiers, fill) {
   a.fill("number_1");
   for (auto elem : count) {
     EXPECT_EQ(a[elem], b[elem]);
-    std::cout << elem << ' ';
   }
 }
