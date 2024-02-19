@@ -1,5 +1,6 @@
-#ifndef S21_CONTAINERS_S21_CONTAINERS_S21_MAP_H_
-#define S21_CONTAINERS_S21_CONTAINERS_S21_MAP_H_
+
+#ifndef SRC_S21_CONTAINERS_S21_MAP_H_
+#define SRC_S21_CONTAINERS_S21_MAP_H_
 
 #include <iostream>
 #include <utility>
@@ -135,5 +136,4 @@ class map {
 };
 
 }  // namespace s21
-
-#endif  // S21_CONTAINERS_S21_CONTAINERS_S21_map_H_
+#endif  // SRC_S21_CONTAINERS_S21_MAP_H_"

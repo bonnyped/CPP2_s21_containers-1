@@ -189,12 +189,6 @@ class list {
     return iterator{new_node};
   }
 
-  iterator insert(const_iterator position, const_reference value) {
-    Node *new_node = new Node{value};
-    position.ptr_->join_node(new_node);
-    size_ += 1;
-    return iterator{new_node};
-  }
   void erase(iterator position) {
     if (!empty()) {
       position.ptr_->unhook_node();
@@ -313,20 +307,15 @@ class list {
   iterator insert_many(const_iterator pos, Args &&...args) {
     iterator next_position{const_cast<Node *>(pos.ptr_)};
     Node *prev_first_inserted_elem = next_position.ptr_->prev_;
-    // Node* сurrent_node_for_join = next_position.ptr_->prev_;
     for (auto item : {std::forward<Args>(args)...}) {
       next_position = insert(next_position, std::move(item));
       ++next_position;
-      // Node *new_node = new Node{std::move(item)};
-      // сurrent_node_for_join->next_->join_node(new_node);
-      // сurrent_node_for_join = сurrent_node_for_join->next_;
     }
     return iterator{prev_first_inserted_elem->next_};
   }
   template <typename... Args>
   void insert_many_back(Args &&...args) {
     for (auto item : {std::forward<Args>(args)...}) {
-      // Node *new_node = new Node{std::move(item)};
       insert(end(), std::move(item));
     }
   }
@@ -334,7 +323,6 @@ class list {
   template <typename... Args>
   void insert_many_front(Args &&...args) {
     for (auto item : {std::forward<Args>(args)...}) {
-      // Node *new_node = new Node{std::move(item)};
       insert(begin(), std::move(item));
     }
   }

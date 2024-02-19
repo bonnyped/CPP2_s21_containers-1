@@ -1,6 +1,6 @@
 #include "s21_test_containers.h"
 
-TEST(MULTISET_CONSTRUCTOR, test_a_1) {
+TEST(MULTISET_CONSTRUCTOR, test_xxx_1) {
   s21::multiset<int> multiset_s21_int;
   s21::multiset<double> multiset_s21_double;
   s21::multiset<std::string> multiset_s21_string;
@@ -10,7 +10,7 @@ TEST(MULTISET_CONSTRUCTOR, test_a_1) {
   EXPECT_EQ(multiset_s21_string.size(), 0U);
 }
 
-TEST(MULTISET_CONSTRUCTOR, test_a_2) {
+TEST(MULTISET_CONSTRUCTOR, test_xxx_2) {
   s21::multiset<int> multiset_s21_int{1, 2, 3, 4, 5};
   s21::multiset<double> multiset_s21_double{1.30359, 2847.4925, 923.39281};
   s21::multiset<std::string> multiset_s21_string{"Hello", ",", "world", "!"};
@@ -20,7 +20,7 @@ TEST(MULTISET_CONSTRUCTOR, test_a_2) {
   EXPECT_EQ(multiset_s21_string.size(), 4U);
 }
 
-TEST(MULTISET_CONSTRUCTOR, test_a_3) {
+TEST(MULTISET_CONSTRUCTOR, test_xxx_3) {
   s21::multiset<int> multiset_s21_ref_int{1, 2, 3, 4, 5};
   s21::multiset<int> multiset_s21_res_int{multiset_s21_ref_int};
 
@@ -36,7 +36,7 @@ TEST(MULTISET_CONSTRUCTOR, test_a_3) {
   EXPECT_EQ(multiset_s21_ref_string.size(), multiset_s21_res_string.size());
 }
 
-TEST(MULTISET_CONSTRUCTOR, test_a_4) {
+TEST(MULTISET_CONSTRUCTOR, test_xxx_4) {
   s21::multiset<int> multiset_s21_ref_int{1, 2, 3, 4, 5};
   s21::multiset<int> multiset_s21_res_int = std::move(multiset_s21_ref_int);
 
@@ -59,7 +59,7 @@ TEST(MULTISET_CONSTRUCTOR, test_a_4) {
   EXPECT_EQ(multiset_s21_res_string.size(), 4U);
 }
 
-TEST(MULTISET_CONSTRUCTOR, test_a_5) {
+TEST(MULTISET_CONSTRUCTOR, test_xxx_5) {
   s21::multiset<int> multiset_s21_ref_int{1, 2, 3, 4, 5};
   s21::multiset<int> multiset_s21_res_int;
   multiset_s21_res_int = std::move(multiset_s21_ref_int);
@@ -83,7 +83,7 @@ TEST(MULTISET_CONSTRUCTOR, test_a_5) {
   EXPECT_EQ(multiset_s21_res_string.size(), 4U);
 }
 
-TEST(MULTISET_CONSTRUCTOR, test_a_7) {
+TEST(MULTISET_CONSTRUCTOR, test_xxx_7) {
   s21::multiset<int> multiset_s21_ref_int{1, 2, 3, 4};
   s21::multiset<int> multiset_s21_res_int{multiset_s21_ref_int};
 
@@ -117,7 +117,7 @@ TEST(MULTISET_CONSTRUCTOR, test_a_7) {
   }
 }
 
-TEST(MULTISET_INSERT, test_a_1) {
+TEST(MULTISET_INSERT, test_xxx_1) {
   s21::multiset<int> multiset_s21;
 
   std::pair<s21::multiset<int>::iterator, bool> insert1 =
@@ -145,7 +145,7 @@ TEST(MULTISET_INSERT, test_a_1) {
   EXPECT_EQ(multiset_s21.size(), 5U);
 }
 
-TEST(MULTISET_INSERT, test_a_2) {
+TEST(MULTISET_INSERT, test_xxx_2) {
   s21::multiset<double> multiset_s21;
 
   std::pair<s21::multiset<double>::iterator, bool> insert1 =
@@ -173,7 +173,7 @@ TEST(MULTISET_INSERT, test_a_2) {
   EXPECT_EQ(multiset_s21.size(), 5U);
 }
 
-TEST(MULTISET_INSERT, test_a_3) {
+TEST(MULTISET_INSERT, test_xxx_3) {
   s21::multiset<std::string> multiset_s21;
 
   std::pair<s21::multiset<std::string>::iterator, bool> insert1 =
@@ -202,7 +202,7 @@ TEST(MULTISET_INSERT, test_a_3) {
   EXPECT_EQ(multiset_s21.size(), 5U);
 }
 
-TEST(MULTISET_INSERT, test_a_4) {
+TEST(MULTISET_INSERT, test_xxx_4) {
   s21::multiset<int> multiset_s21;
 
   std::pair<s21::multiset<int>::iterator, bool> insert1 =
@@ -220,7 +220,7 @@ TEST(MULTISET_INSERT, test_a_4) {
   EXPECT_EQ(multiset_s21.size(), 3U);
 }
 
-TEST(MULTISET_INSERT, test_a_5) {
+TEST(MULTISET_INSERT, test_xxx_5) {
   s21::multiset<double> multiset_s21 = {21};
 
   std::pair<s21::multiset<double>::iterator, bool> insert1 =
@@ -230,7 +230,7 @@ TEST(MULTISET_INSERT, test_a_5) {
   EXPECT_EQ(multiset_s21.size(), 2U);
 }
 
-TEST(MULTISET_INSERT, test_a_6) {
+TEST(MULTISET_INSERT, test_xxx_6) {
   s21::multiset<std::string> multiset_s21 = {"hello"};
 
   std::pair<s21::multiset<std::string>::iterator, bool> insert1 =
@@ -241,84 +241,84 @@ TEST(MULTISET_INSERT, test_a_6) {
   EXPECT_EQ(multiset_s21.size(), 2U);
 }
 
-TEST(MULTISET_BEGIN, test_a_1) {
+TEST(MULTISET_BEGIN, test_xxx_1) {
   s21::multiset<int> multiset_s21 = {9, 15, 7, 23, 2};
 
   EXPECT_EQ(*multiset_s21.begin(), 2);
 }
 
-TEST(MULTISET_BEGIN, test_a_2) {
+TEST(MULTISET_BEGIN, test_xxx_2) {
   s21::multiset<double> multiset_s21 = {11.4, 2.770001, 3.901, 2.77, 3.9};
 
   EXPECT_EQ(*multiset_s21.begin(), 2.77);
 }
 
-TEST(MULTISET_BEGIN, test_a_3) {
+TEST(MULTISET_BEGIN, test_xxx_3) {
   s21::multiset<std::string> multiset_s21 = {"hello", "hi", "hi-hi", "holli",
                                              "hello, hamlet"};
 
   EXPECT_EQ(*multiset_s21.begin(), "hello");
 }
 
-TEST(MULTISET_BEGIN, test_a_5) {
+TEST(MULTISET_BEGIN, test_xxx_5) {
   s21::multiset<double> multiset_s21 = {1.4, 1.4};
 
   EXPECT_EQ(*multiset_s21.begin(), 1.4);
 }
 
-TEST(MULTISET_BEGIN, test_a_6) {
+TEST(MULTISET_BEGIN, test_xxx_6) {
   s21::multiset<std::string> multiset_s21 = {"hello", "hello", "hello"};
 
   EXPECT_EQ(*multiset_s21.begin(), "hello");
 }
 
-TEST(MULTISET_END, test_a_1) {
+TEST(MULTISET_END, test_xxx_1) {
   s21::multiset<int> multiset_s21 = {9, 15, 7, 23, 2};
 
   EXPECT_EQ(*--multiset_s21.end(), 23);
 }
 
-TEST(MULTISET_END, test_a_2) {
+TEST(MULTISET_END, test_xxx_2) {
   s21::multiset<double> multiset_s21 = {11.4, 2.770001, 3.901, 11.400000001,
                                         3.9};
 
   EXPECT_EQ(*--multiset_s21.end(), 11.400000001);
 }
 
-TEST(MULTISET_END, test_a_3) {
+TEST(MULTISET_END, test_xxx_3) {
   s21::multiset<std::string> multiset_s21 = {"hello", "hi", "holliwood",
                                              "holli", "hello, hamlet"};
 
   EXPECT_EQ(*--multiset_s21.end(), "holliwood");
 }
 
-TEST(MULTISET_END, test_a_5) {
+TEST(MULTISET_END, test_xxx_5) {
   s21::multiset<double> multiset_s21 = {1.4, 1.4};
 
   EXPECT_EQ(*--multiset_s21.end(), 1.4);
 }
 
-TEST(MULTISET_END, test_a_6) {
+TEST(MULTISET_END, test_xxx_6) {
   s21::multiset<std::string> multiset_s21 = {"hello", "hello", "hello"};
 
   EXPECT_EQ(*--multiset_s21.end(), "hello");
 }
 
-TEST(MULTISET_BALANCE, test_a_1) {
+TEST(MULTISET_BALANCE, test_xxx_1) {
   s21::multiset<int> multiset_s21 = {1, 15, 5};
 
   EXPECT_EQ(*--multiset_s21.end(), 15);
   EXPECT_EQ(multiset_s21.size(), 3U);
 }
 
-TEST(MULTISET_BALANCE, test_a_2) {
+TEST(MULTISET_BALANCE, test_xxx_2) {
   s21::multiset<double> multiset_s21 = {11.4, 2.770001, 3.901};
 
   EXPECT_EQ(*--multiset_s21.end(), 11.4);
   EXPECT_EQ(multiset_s21.size(), 3U);
 }
 
-TEST(MULTISET_BALANCE, test_a_3) {
+TEST(MULTISET_BALANCE, test_xxx_3) {
   s21::multiset<std::string> multiset_s21 = {"hello", "hi", "holliwood",
                                              "holli", "hello, hamlet"};
 
@@ -326,7 +326,7 @@ TEST(MULTISET_BALANCE, test_a_3) {
   EXPECT_EQ(multiset_s21.size(), 5U);
 }
 
-TEST(MULTISET_BALANCE, test_a_4) {
+TEST(MULTISET_BALANCE, test_xxx_4) {
   s21::multiset<int> multiset_s21 = {10, 5, 20, 30, 1543};
 
   EXPECT_EQ(*--multiset_s21.end(), 1543);
@@ -334,7 +334,7 @@ TEST(MULTISET_BALANCE, test_a_4) {
   EXPECT_EQ(multiset_s21.size(), 5U);
 }
 
-TEST(MULTISET_BALANCE, test_a_5) {
+TEST(MULTISET_BALANCE, test_xxx_5) {
   s21::multiset<int> multiset_s21 = {30, 5, 43, 1, 20, 40, 60, 35, 32, 32, 35};
 
   EXPECT_EQ(*--multiset_s21.end(), 60);
@@ -342,7 +342,7 @@ TEST(MULTISET_BALANCE, test_a_5) {
   EXPECT_EQ(multiset_s21.size(), 11U);
 }
 
-TEST(MULTISET_ERASE, test_a_1) {
+TEST(MULTISET_ERASE, test_xxx_1) {
   std::set<int> multiset_s21 = {10, 5, 15, 4, 18, 13, 16};
 
   auto it = multiset_s21.begin();
@@ -388,7 +388,7 @@ TEST(MULTISET_ERASE, test_a_1) {
   EXPECT_EQ(multiset_s21.size(), 0U);
 }
 
-TEST(MULTISET_ERASE, test_a_2) {
+TEST(MULTISET_ERASE, test_xxx_2) {
   s21::multiset<int> multiset_s21 = {30, 1543};
 
   auto it = multiset_s21.begin();
@@ -400,7 +400,7 @@ TEST(MULTISET_ERASE, test_a_2) {
   EXPECT_EQ(multiset_s21.size(), 0U);
 }
 
-TEST(MULTISET_ERASE, test_a_3) {
+TEST(MULTISET_ERASE, test_xxx_3) {
   s21::multiset<std::string> multiset_s21 = {"hello", "hi", "holliwood",
                                              "holli", "hello, hamlet"};
 
@@ -422,7 +422,7 @@ TEST(MULTISET_ERASE, test_a_3) {
   EXPECT_EQ(multiset_s21.size(), 4U);
 }
 
-TEST(MULTISET_ERASE, test_a_4) {
+TEST(MULTISET_ERASE, test_xxx_4) {
   s21::multiset<double> multiset_s21 = {22.2, 12.4457, 56.84, 941.44, 45.11};
 
   auto it = --multiset_s21.end();
@@ -445,7 +445,7 @@ TEST(MULTISET_ERASE, test_a_4) {
   EXPECT_EQ(multiset_s21.size(), 3U);
 }
 
-TEST(MULTISET_ERASE, test_a_5) {
+TEST(MULTISET_ERASE, test_xxx_5) {
   s21::multiset<double> multiset_s21 = {22.2, 45.11, 12.4457, 1.44};
 
   auto it = multiset_s21.begin();
@@ -460,7 +460,15 @@ TEST(MULTISET_ERASE, test_a_5) {
   EXPECT_EQ(multiset_s21.size(), 3U);
 }
 
-TEST(MULTISET_ERASE, test_a_6) {
+TEST(MULTISET_ERASE, test_xxxX_5) {
+  s21::multiset<double> multiset_s21 = {22.2,  45.11, 45.11,   45.11,
+                                        45.11, 45.11, 12.4457, 1.44};
+  multiset_s21.erase(45.11);
+  multiset_s21.erase(12.4457);
+  EXPECT_EQ(multiset_s21.size(), 2U);
+}
+
+TEST(MULTISET_ERASE, test_xxx_6) {
   s21::multiset<double> multiset_s21 = {22.2, 45.11, 12.4457, 6.84, 1.44};
 
   auto it = multiset_s21.begin();
@@ -476,7 +484,7 @@ TEST(MULTISET_ERASE, test_a_6) {
   EXPECT_EQ(multiset_s21.size(), 4U);
 }
 
-TEST(MULTISET_ERASE, test_a_7) {
+TEST(MULTISET_ERASE, test_xxx_7) {
   s21::multiset<double> multiset_s21 = {22.2, 12.4457, 56.84, 941.44, 45.11};
 
   auto it = multiset_s21.begin();
@@ -488,7 +496,7 @@ TEST(MULTISET_ERASE, test_a_7) {
   EXPECT_EQ(multiset_s21.size(), 4U);
 }
 
-TEST(MULTISET_ERASE, test_a_8) {
+TEST(MULTISET_ERASE, test_xxx_8) {
   s21::multiset<double> multiset_s21 = {22.2, 45.11, 12.4457, 1.44};
 
   auto it = multiset_s21.begin();
@@ -500,7 +508,7 @@ TEST(MULTISET_ERASE, test_a_8) {
   EXPECT_EQ(multiset_s21.size(), 3U);
 }
 
-TEST(MULTISET_ERASE, test_a_9) {
+TEST(MULTISET_ERASE, test_xxx_9) {
   s21::multiset<double> multiset_s21 = {22.2,  45.11, 12.4457, 32.45,
                                         65.12, 66.32, 40.54,   6.4};
 
@@ -518,7 +526,7 @@ TEST(MULTISET_ERASE, test_a_9) {
   EXPECT_EQ(multiset_s21.size(), 7U);
 }
 
-TEST(MULTISET_ERASE, test_a_10) {
+TEST(MULTISET_ERASE, test_xxx_10) {
   s21::multiset<double> multiset_s21 = {22.2};
 
   auto it = --multiset_s21.end();
@@ -528,19 +536,19 @@ TEST(MULTISET_ERASE, test_a_10) {
   EXPECT_EQ(multiset_s21.size(), 0U);
 }
 
-TEST(MULTISET_EMPTY, test_a_1) {
+TEST(MULTISET_EMPTY, test_xxx_1) {
   s21::multiset<double> multiset_s21 = {22.2, 45.11, 12.4457, 1.44};
 
   EXPECT_EQ(multiset_s21.empty(), 0);
 }
 
-TEST(MULTISET_EMPTY, test_a_2) {
+TEST(MULTISET_EMPTY, test_xxx_2) {
   s21::multiset<double> multiset_s21;
 
   EXPECT_EQ(multiset_s21.empty(), 1);
 }
 
-TEST(MULTISET_SWAP, test_a_1) {
+TEST(MULTISET_SWAP, test_xxx_1) {
   s21::multiset<double> multiset_s21_ref = {22.2, 45.11};
   s21::multiset<double> multiset_s21_res = {12.4457, 1.44, 22.2};
 
@@ -553,7 +561,7 @@ TEST(MULTISET_SWAP, test_a_1) {
   EXPECT_EQ(*multiset_s21_res.begin(), 22.2);
 }
 
-TEST(MULTISET_SWAP, test_a_2) {
+TEST(MULTISET_SWAP, test_xxx_2) {
   s21::multiset<double> multiset_s21_ref = {22.2, 45.11};
   s21::multiset<double> multiset_s21_res;
 
@@ -565,7 +573,7 @@ TEST(MULTISET_SWAP, test_a_2) {
   EXPECT_EQ(*multiset_s21_res.begin(), 22.2);
 }
 
-TEST(MULTISET_SWAP, test_a_3) {
+TEST(MULTISET_SWAP, test_xxx_3) {
   s21::multiset<double> multiset_s21_ref;
   s21::multiset<double> multiset_s21_res = {12.4457, 1.44, 22.2};
 
@@ -577,7 +585,7 @@ TEST(MULTISET_SWAP, test_a_3) {
   EXPECT_EQ(multiset_s21_res.size(), 0U);
 }
 
-TEST(MULTISET_SWAP, test_a_4) {
+TEST(MULTISET_SWAP, test_xxx_4) {
   s21::multiset<double> multiset_s21_ref;
   s21::multiset<double> multiset_s21_res;
 
@@ -587,14 +595,14 @@ TEST(MULTISET_SWAP, test_a_4) {
   EXPECT_EQ(multiset_s21_res.size(), 0U);
 }
 
-TEST(MULTISET_CONTAINS, test_a_1) {
+TEST(MULTISET_CONTAINS, test_xxx_1) {
   s21::multiset<double> multiset_s21 = {22.2, 45.11};
 
   EXPECT_EQ(multiset_s21.contains(22.2), true);
   EXPECT_EQ(multiset_s21.contains(45.11), true);
 }
 
-TEST(MULTISET_CONTAINS, test_a_2) {
+TEST(MULTISET_CONTAINS, test_xxx_2) {
   s21::multiset<double> multiset_s21_ref = {22.2, 45.11};
   s21::multiset<double> multiset_s21_res;
 
@@ -609,7 +617,7 @@ TEST(MULTISET_CONTAINS, test_a_2) {
   EXPECT_EQ(multiset_s21_res.contains(45.11), true);
 }
 
-TEST(MULTISET_CONTAINS, test_a_3) {
+TEST(MULTISET_CONTAINS, test_xxx_3) {
   s21::multiset<double> multiset_s21_ref;
   s21::multiset<double> multiset_s21_res = {12.4457, 1.44, 22.2};
 
@@ -626,20 +634,20 @@ TEST(MULTISET_CONTAINS, test_a_3) {
   EXPECT_EQ(multiset_s21_res.contains(22.2), false);
 }
 
-TEST(MULTISET_CONTAINS, test_a_4) {
+TEST(MULTISET_CONTAINS, test_xxx_4) {
   s21::multiset<double> multiset_s21;
 
   EXPECT_EQ(multiset_s21.size(), 0U);
   EXPECT_EQ(multiset_s21.contains(12.4457), false);
 }
 
-TEST(MULTISET_FIND, test_a_1) {
+TEST(MULTISET_FIND, test_xxx_1) {
   std::set<double> multiset_s21;
 
   EXPECT_TRUE(multiset_s21.find(23.4) == multiset_s21.end());
 }
 
-TEST(MULTISET_FIND, test_a_2) {
+TEST(MULTISET_FIND, test_xxx_2) {
   s21::multiset<double> multiset_s21 = {12.4457, 1.44, 22.2};
 
   auto it = multiset_s21.begin();
@@ -654,7 +662,7 @@ TEST(MULTISET_FIND, test_a_2) {
   EXPECT_EQ(*multiset_s21.find(22.2), *it);
 }
 
-TEST(MULTISET_INSERT_MANY, test_a_1) {
+TEST(MULTISET_INSERT_MANY, test_xxx_1) {
   s21::multiset<int> multiset_s21;
 
   std::vector<std::pair<s21::multiset<int>::iterator, bool>> ins_many1 =
@@ -665,7 +673,7 @@ TEST(MULTISET_INSERT_MANY, test_a_1) {
   EXPECT_EQ(multiset_s21.size(), 5U);
 }
 
-TEST(MULTISET_INSERT_MANY, test_a_2) {
+TEST(MULTISET_INSERT_MANY, test_xxx_2) {
   s21::multiset<double> multiset_s21;
 
   std::vector<std::pair<s21::multiset<double>::iterator, bool>> ins_many1 =
@@ -676,7 +684,7 @@ TEST(MULTISET_INSERT_MANY, test_a_2) {
   EXPECT_EQ(multiset_s21.size(), 5U);
 }
 
-TEST(MULTISET_INSERT_MANY, test_a_3) {
+TEST(MULTISET_INSERT_MANY, test_xxx_3) {
   s21::multiset<std::string> multiset_s21;
 
   std::vector<std::pair<s21::multiset<std::string>::iterator, bool>> ins_many1 =
@@ -687,7 +695,7 @@ TEST(MULTISET_INSERT_MANY, test_a_3) {
   EXPECT_EQ(multiset_s21.size(), 5U);
 }
 
-TEST(MULTISET_INSERT_MANY, test_a_4) {
+TEST(MULTISET_INSERT_MANY, test_xxx_4) {
   s21::multiset<int> multiset_s21;
 
   std::vector<std::pair<s21::multiset<int>::iterator, bool>> ins_many1 =
@@ -698,7 +706,7 @@ TEST(MULTISET_INSERT_MANY, test_a_4) {
   EXPECT_EQ(multiset_s21.size(), 1U);
 }
 
-TEST(MULTISET_INSERT_MANY, test_a_5) {
+TEST(MULTISET_INSERT_MANY, test_xxx_5) {
   s21::multiset<double> multiset_s21 = {1.4};
 
   std::vector<std::pair<s21::multiset<double>::iterator, bool>> ins_many1 =
@@ -708,7 +716,7 @@ TEST(MULTISET_INSERT_MANY, test_a_5) {
   EXPECT_EQ(multiset_s21.size(), 2U);
 }
 
-TEST(MULTISET_INSERT_MANY, test_a_6) {
+TEST(MULTISET_INSERT_MANY, test_xxx_6) {
   s21::multiset<std::string> multiset_s21 = {"hello"};
 
   std::vector<std::pair<s21::multiset<std::string>::iterator, bool>> ins_many1 =
@@ -894,7 +902,7 @@ TEST(MULTISET, FIND_TEST_13) {
   }
 }
 
-TEST(MULTISET_COUNT, test_a_14) {
+TEST(MULTISET_COUNT, test_xxx_14) {
   s21::multiset<double> multiset_s21 = {22.2, 45.11, 22.2, 22.2, 22.2};
 
   EXPECT_EQ(multiset_s21.count(22.2), 4U);
@@ -902,7 +910,7 @@ TEST(MULTISET_COUNT, test_a_14) {
   EXPECT_EQ(multiset_s21.count(43.11), 0U);
 }
 
-TEST(MULTISET_LOWER_BOUND, test_a_1) {
+TEST(MULTISET_LOWER_BOUND, test_xxx_1) {
   s21::multiset<int> multiset_s21 = {1, 1,  2, 3, 4, 5, 1, 3, 7, 8,
                                      9, -9, 7, 8, 5, 4, 8, 9, 6};
   std::multiset<int> multiset_std = {1, 1,  2, 3, 4, 5, 1, 3, 7, 8,
@@ -926,7 +934,7 @@ TEST(MULTISET_LOWER_BOUND, test_a_1) {
   EXPECT_EQ(*multiset_std.lower_bound(-11), -9);
 }
 
-TEST(MULTISET_UPPER_BOUND, test_a_1) {
+TEST(MULTISET_UPPER_BOUND, test_xxx_1) {
   s21::multiset<int> multiset_s21 = {1, 1,  2, 3, 4, 5, 1, 3, 7, 8,
                                      9, -9, 7, 8, 5, 4, 8, 9, 6};
   std::multiset<int> multiset_std = {1, 1,  2, 3, 4, 5, 1, 3, 7, 8,
@@ -950,7 +958,7 @@ TEST(MULTISET_UPPER_BOUND, test_a_1) {
   EXPECT_EQ(*multiset_std.upper_bound(-11), -9);
 }
 
-TEST(MULTISET_EQUAL_RANGE, test_a_1) {
+TEST(MULTISET_EQUAL_RANGE, test_xxx_1) {
   s21::multiset<int> multiset_s21 = {1, 1,  2, 3, 4, 5, 1, 3, 7, 8,
                                      9, -9, 7, 8, 5, 4, 8, 9, 6};
   std::multiset<int> multiset_std = {1, 1,  2, 3, 4, 5, 1, 3, 7, 8,
@@ -974,7 +982,7 @@ TEST(MULTISET_EQUAL_RANGE, test_a_1) {
   EXPECT_EQ(*multiset_std.equal_range(-11).second, -9);
 }
 
-TEST(MULTISET_EQUAL_RANGE, test_a_2) {
+TEST(MULTISET_EQUAL_RANGE, test_xxx_2) {
   s21::multiset<int> multiset_s21 = {1, 1,  2, 3, 4, 5, 1, 3, 7, 8,
                                      9, -9, 7, 8, 5, 4, 8, 9, 6};
   std::multiset<int> multiset_std = {1, 1,  2, 3, 4, 5, 1, 3, 7, 8,

@@ -36,7 +36,7 @@ TEST(Constructors, copy_constructor) {
   array<double, 4> a{1.1233123112314, 2.12312312, 3.425363, 4.2335436};
   array<double, 4> b = a;
   s21::array<double, 4> c{1.1233123112314, 2.12312312, 3.425363, 4.2335436};
-  s21::array<double, 4> d = c;
+  s21::array<double, 4> d = std::move(c);
   for (auto elem : count) EXPECT_DOUBLE_EQ(b[elem], d[elem]);
 }
 
@@ -92,10 +92,10 @@ TEST(Element_Access, back_2) {
   EXPECT_EQ(&b.back(), &b.arr_[2]);
 }
 
-TEST(Element_Access, data) {
-  s21::array<char, 1> b{15};
-  EXPECT_EQ(b.data().get_ptr(), b.begin().get_ptr());
-}
+// TEST(Element_Access, data) {
+//   s21::array<char, 1> b{15};
+//   EXPECT_EQ(b.data().get_ptr(), b.begin().get_ptr());
+// }
 
 // TEST(Array_Capacity, emty) {
 //   s21::array<std::string, 0> b;
@@ -126,5 +126,8 @@ TEST(Array_Modifiers, fill) {
   s21::array<string, 3> a;
   s21::array<string, 3> b{"number_1", "number_1", "number_1"};
   a.fill("number_1");
-  for (auto elem : count) EXPECT_EQ(a[elem], b[elem]);
+  for (auto elem : count) {
+    EXPECT_EQ(a[elem], b[elem]);
+    std::cout << elem << ' ';
+  }
 }

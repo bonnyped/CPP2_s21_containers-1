@@ -1,5 +1,5 @@
 TARGET      =  test
-CC          =  g++ -g -pedantic 
+CC          =  gcc -g -pedantic 
 CFLAGS      =  -fno-stack-protector  -Wall -Wextra -Werror -std=c++17  -g
 TEST_FLAGS  =  -lgtest -pthread -std=c++17  -lstdc++ -lpthread -lm
 GFLAGS      = -fprofile-arcs -ftest-coverage
@@ -16,11 +16,10 @@ $(TARGET): clean test_run
 
 test_run: test_all
 	./test
-
+	
 test_all: 
 	$(CC) -o test $(GFLAGS) tests/*.cc $(TEST_FLAGS) 
-	# ./test
-	# make lcov
+
 
 test_vector: clean
 	$(CC) -o test $(GFLAGS) tests/test_main.cc tests/test_s21_vector.cc $(TEST_FLAGS)
@@ -77,12 +76,9 @@ clean:
 
 gcov_report: clean
 	$(CC) -o test   tests/*.cc $(TEST_FLAGS) $(GFLAGS)
-	# ./test
 	make lcov
 
 lcov: 
-	# $(CC) -o test    tests/*.cc $(TEST_FLAGS) $(GFLAGS)
-	# ./test
 	lcov --quiet --no-recursion --capture --directory . --output-file test.info
 	@lcov --quiet --no-recursion -r test.info '/usr/*' '*/v1/*'  ${SKIP_D}   -o test.info
 	genhtml -o ./report/ test.info
