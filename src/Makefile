@@ -1,10 +1,10 @@
-TARGET		=  test
-CC 			=  g++ -g -pedantic 
-CFLAGS 		=  -fno-stack-protector  -Wall -Wextra -Werror -std=c++17  -g
+TARGET      =  test
+CC          =  g++ -g -pedantic 
+CFLAGS      =  -fno-stack-protector  -Wall -Wextra -Werror -std=c++17  -g
 TEST_FLAGS  =  -lgtest -pthread -std=c++17  -lstdc++ -lpthread -lm
 GFLAGS      = -fprofile-arcs -ftest-coverage
-OS		   :=  $(shell uname -s)
-PATH_TEST	= ./tests/
+OS         :=  $(shell uname -s)
+PATH_TEST   = ./tests/
 SKIP_D      = '*/tests/*' 
 
 
@@ -128,5 +128,6 @@ docker: docker_clean
 	docker rmi test_containers:cpp
 	
 docker_clean:
-	docker rm $$(docker ps -a -q) || true
-	docker rmi -f $$(docker images -q) || true
+	@docker stop containers_cpp
+	@docker rm containers_cpp || true
+	@docker rmi -f test_containers:cpp || true

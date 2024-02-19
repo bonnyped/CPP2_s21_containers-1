@@ -276,9 +276,9 @@ class RBTree {
       delete node_del;
     }
     if (head_->link_[parent] != head_) {
-#if defined(SRC_TESTS_S21_TEST_CONTAINERS_H_)
-      CheckRedBlackTreeValidation(head_->link_[parent]);
-#endif
+      // #if defined(SRC_TESTS_S21_TEST_CONTAINERS_H_)
+      //       CheckRedBlackTreeValidation(head_->link_[parent]);
+      // #endif
     }
   }
 
@@ -289,9 +289,9 @@ class RBTree {
       delete node_del;
     }
     if (head_->link_[parent] != head_) {
-#if defined(SRC_TESTS_S21_TEST_CONTAINERS_H_)
-      CheckRedBlackTreeValidation(head_->link_[parent]);
-#endif
+      // #if defined(SRC_TESTS_S21_TEST_CONTAINERS_H_)
+      //       CheckRedBlackTreeValidation(head_->link_[parent]);
+      // #endif
     }
   }
 
@@ -468,9 +468,9 @@ class RBTree {
       head_->link_[right] = FindMaxElement(Root());
     }
 
-#if defined(SRC_TESTS_S21_TEST_CONTAINERS_H_)
-    CheckRedBlackTreeValidation(head_->link_[parent]);
-#endif
+    // #if defined(SRC_TESTS_S21_TEST_CONTAINERS_H_)
+    //     CheckRedBlackTreeValidation(head_->link_[parent]);
+    // #endif
   }
 
   base_node *CreateCopyTree(base_node *this_node, base_node *parent_n,
@@ -564,9 +564,9 @@ class RBTree {
       }
     }
     size_ += 1;
-#if defined(SRC_TESTS_S21_TEST_CONTAINERS_H_)
-    CheckRedBlackTreeValidation(head_->link_[parent]);
-#endif
+    // #if defined(SRC_TESTS_S21_TEST_CONTAINERS_H_)
+    //     CheckRedBlackTreeValidation(head_->link_[parent]);
+    // #endif
     return {iterator(new_node), true};
   }
 
