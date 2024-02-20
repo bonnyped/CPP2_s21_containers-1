@@ -150,9 +150,49 @@ TEST(Zero_Array, test_1) {
   EXPECT_EQ(a.empty(), b.empty());
   EXPECT_EQ(a.max_size(), b.max_size());
   EXPECT_EQ(a.size(), b.size());
-  s21::array<string, 0> c;
+  s21::array<std::string, 0> c;
   b.swap(c);
   b.fill("ldv");
-  s21::array<string, 0> const d;
+  s21::array<std::string, 0> const d;
   EXPECT_TRUE(d.begin() == d.end());
+  EXPECT_THROW(c[9], exception);
+}
+
+TEST(ARRAY, test_list_init_exception_1) {
+  try {
+    s21::array<std::string, 4U> a{"1", "2", "3", "4", "5"};
+  } catch (std::out_of_range& e) {
+    ASSERT_STREQ("There are too many initializers!", e.what());
+  }
+}
+
+TEST(ARRAY, test_move_constructor_1) {
+  s21::array<std::string, 4U> a{"1", "2", "3", "4"};
+  s21::array<std::string, 4U> b(std::move(a));
+  EXPECT_EQ(a.size(), 4U);
+  EXPECT_EQ(a[0], "");
+  EXPECT_EQ(b.size(), 4U);
+  EXPECT_EQ(b[0], "1");
+  s21::array<std::string, 4U> c(std::move(b));
+  EXPECT_EQ(b.size(), 4U);
+  EXPECT_EQ(b[0], "");
+  EXPECT_EQ(c.size(), 4U);
+  EXPECT_EQ(c[0], "1");
+}
+
+TEST(ARRAY, test_operator_eq_move__1) {
+  s21::array<std::string, 4U> a{"1", "2", "3", "4"};
+  s21::array<std::string, 4U> b;
+  b = std::move(a);
+  EXPECT_EQ(a.size(), 4U);
+  EXPECT_EQ(a[0], "");
+  EXPECT_EQ(b.size(), 4U);
+  EXPECT_EQ(b[0], "1");
+  s21::array<std::string, 4U> c;
+  c = (std::move(b));
+  EXPECT_EQ(b.size(), 4U);
+  EXPECT_EQ(b[0], "");
+  EXPECT_EQ(c.size(), 4U);
+  EXPECT_EQ(c[0], "1");
+  EXPECT_TRUE(!b.empty());
 }

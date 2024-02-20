@@ -27,7 +27,7 @@ class array {
         ++elem_list;
       }
     } else {
-      throw std::out_of_range("Слишком много инициализаторов!");
+      throw std::out_of_range("There are too many initializers!");
     }
   }
 
@@ -38,11 +38,22 @@ class array {
     }
   }
 
-  array(array &&a) noexcept { *this = std::move(a); }
+  array(array &&a) noexcept {
+    if (this != &a) {
+      *this = std::move(a);
+    }
+  }
 
   ~array() = default;
 
-  array &operator=(array &&a) { return a; }
+  array &operator=(array &&a) {
+    if (this != &a) {
+      for (size_t i = 0U; i < size(); ++i) {
+        this->arr_[i] = std::move(a.arr_[i]);
+      }
+    }
+    return *this;
+  }
 
   // публичные методы для доступа к элементам класса:
   reference at(size_type pos) {
@@ -107,7 +118,7 @@ class array<T, 0> {
   iterator data() { return 0; }
   void fill(const_reference &) {}
   void swap(array &) {}  // NOLINT
-  reference operator[](size_type pos) { return arr_[pos]; }
+  reference operator[](size_type pos) { return at(pos); }
   reference at(size_type pos) {
     throw std::out_of_range(
         "Введенная позиция находится за пределами массива!");
