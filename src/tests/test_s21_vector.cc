@@ -280,3 +280,29 @@ TEST(S21_VECTOR, reserve_test_17) {
   EXPECT_EQ(vector_a.capacity(), size__);
   EXPECT_EQ(size__, vector_a.size());
 }
+
+TEST(S21_VECTOR, iter_test_18) {
+  s21::vector<int> vector_a{};
+  vector_a.push_back(9);
+  vector_a.push_back(8);
+  vector_a.push_back(7);
+  vector_a.push_back(6);
+  vector_a.push_back(5);
+  vector_a.push_back(4);
+  vector_a.push_back(3);
+  vector_a.push_back(2);
+  vector_a.push_back(1);
+  vector_a.push_back(0);
+  vector_a.push_back(-1);
+  auto it = ++vector_a.begin();
+  EXPECT_EQ(*it--, *++vector_a.begin());
+  s21::vector<int> vector_b{};
+  EXPECT_TRUE(vector_b.cbegin() == vector_b.cend());
+  EXPECT_EQ((vector_a.end() - (++vector_a.begin())), 10U);
+  EXPECT_EQ((vector_a.end() - (vector_a.begin())), 11U);
+  EXPECT_EQ(vector_a.front(), 9);
+  s21::vector<int> vector_c(100);
+  EXPECT_TRUE(vector_c.cbegin() != vector_c.cend());
+  // EXPECT_EQ(vector_a.capacity(), size__);
+  // EXPECT_EQ(size__, vector_a.size());
+}

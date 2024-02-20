@@ -76,6 +76,7 @@ clean:
 
 gcov_report: clean
 	$(CC) -o test   tests/*.cc $(TEST_FLAGS) $(GFLAGS)
+	./test
 	make lcov
 
 lcov: 

@@ -57,9 +57,8 @@ class vector {
       --ptr_;
       return *this;
     }
-    const v_iterator operator--(int) {
-      v_iterator copy = *this;
-
+    v_iterator operator--(int) {  /// const??
+      v_iterator copy{*this};
       --ptr_;
       return copy;
     }
@@ -67,7 +66,7 @@ class vector {
     pointer_type operator+(size_type _offset_) { return ptr_ + _offset_; }
     pointer_type operator-(size_type _offset_) { return ptr_ - _offset_; }
     size_type operator-(v_iterator reduced) {
-      return &ptr_ - &reduced.ptr;
+      return ptr_ - reduced.ptr_;
     }  // необходимо убедиться, что с константными указателями тоже работает
 
    private:

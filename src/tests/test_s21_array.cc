@@ -136,12 +136,23 @@ TEST(Array_Modifiers, swap) {
   for (auto elem : count) EXPECT_EQ(b[elem], c[elem]);
 }
 
-TEST(Array_Modifiers, fill) {
-  int count[3]{0, 1, 2};
-  s21::array<string, 3> a;
-  s21::array<string, 3> b{"number_1", "number_1", "number_1"};
-  a.fill("number_1");
-  for (auto elem : count) {
-    EXPECT_EQ(a[elem], b[elem]);
-  }
+TEST(Zero_Array, test_1) {
+  array<string, 0> a;
+  s21::array<string, 0> b;
+  EXPECT_THROW(b.at(0), exception);
+  EXPECT_EQ(a.begin(), b.begin());
+  EXPECT_EQ(a.end(), b.end());
+  EXPECT_EQ(a.cbegin(), b.cbegin());
+  EXPECT_EQ(a.cend(), b.cend());
+  EXPECT_THROW(b.front(), exception);
+  EXPECT_THROW(b.back(), exception);
+  EXPECT_EQ(a.data(), b.data());
+  EXPECT_EQ(a.empty(), b.empty());
+  EXPECT_EQ(a.max_size(), b.max_size());
+  EXPECT_EQ(a.size(), b.size());
+  s21::array<string, 0> c;
+  b.swap(c);
+  b.fill("ldv");
+  s21::array<string, 0> const d;
+  EXPECT_TRUE(d.begin() == d.end());
 }

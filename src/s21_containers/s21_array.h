@@ -99,18 +99,28 @@ class array<T, 0> {
   using difference_type = std::ptrdiff_t;
   using size_type = std::size_t;
   struct Type {};
-
+  value_type_pointer arr_;
+  array() {}
   bool empty() const noexcept { return true; }
   size_type size() const noexcept { return 0; }
+  size_type max_size() const noexcept { return 0; }
+  iterator data() { return 0; }
+  void fill(const_reference &) {}
+  void swap(array &) {}  // NOLINT
+  reference operator[](size_type pos) { return arr_[pos]; }
   reference at(size_type pos) {
     throw std::out_of_range(
         "Введенная позиция находится за пределами массива!");
     return *(static_cast<value_type_pointer>(nullptr));
   }
-  const_reference front() { return at(0); }
-  const_reference back() { return at(size() - 1); }
+  const_reference front() {
+    return at(0);
+  }  // не разобрался как отловить тестом сегу
+  const_reference back() { return at(0); }
   iterator begin() noexcept { return 0; }
   iterator end() noexcept { return 0; }
+  iterator cbegin() noexcept { return 0; }
+  iterator cend() noexcept { return 0; }
   const_iterator begin() const noexcept { return 0; }
   const_iterator end() const noexcept { return 0; }
 };
