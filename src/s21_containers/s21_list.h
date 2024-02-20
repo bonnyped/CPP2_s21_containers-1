@@ -1,7 +1,12 @@
+/* Copyright 2023 professo bonnypad */
 #ifndef SRC_S21_CONTAINERS_S21_LIST_H_
 #define SRC_S21_CONTAINERS_S21_LIST_H_
 
+#include <limits>
+#include <utility>
+
 namespace s21 {
+
 template <typename T>
 class list {
  public:
@@ -72,7 +77,7 @@ class list {
     }
 
     base_iterator operator++(int) {
-      base_iterator copy(*this);
+      base_iterator copy{*this};
       ++*this;
       return copy;
     }
@@ -83,7 +88,7 @@ class list {
     }
 
     base_iterator operator--(int) {
-      base_iterator copy(*this);
+      base_iterator copy{*this};
       --*this;
       return copy;
     }
@@ -99,39 +104,41 @@ class list {
   // ****************************************************************************
   // // публичные методы для итерирования по элементам класса (доступ к //
   // итераторам): //
-  iterator begin() { return iterator{head_->next_}; }
-  iterator end() { return iterator{head_}; }
+  iterator begin() noexcept { return iterator{head_->next_}; }
+  iterator end() noexcept { return iterator{head_}; }
 
-  const_iterator begin() const { return const_iterator{head_->next_}; }
-  const_iterator end() const { return const_iterator{head_}; }
+  const_iterator begin() const noexcept { return const_iterator{head_->next_}; }
+  const_iterator end() const noexcept { return const_iterator{head_}; }
 
-  const_iterator cbegin() const { return const_iterator{head_->next_}; }
-  const_iterator cend() const { return const_iterator{head_}; }
+  const_iterator cbegin() const noexcept {
+    return const_iterator{head_->next_};
+  }
+  const_iterator cend() const noexcept { return const_iterator{head_}; }
 
   // ******************************************************* //
   // основные публичные методы для взаимодействия с классом: //
-  list() : head_(new Node()), size_(0) {}
+  list() : head_(new Node{}), size_(0) {}
 
-  explicit list(size_type size) : list() {
+  explicit list(size_type size) : list{} {
     while (size) {
       push_back(value_type{});
       size -= 1;
     }
   }
 
-  explicit list(std::initializer_list<value_type> const &items) : list() {
+  explicit list(std::initializer_list<value_type> const &items) : list{} {
     for (auto item : items) {
       push_back(item);
     }
   }
 
-  explicit list(const list &other) : list() {
+  explicit list(const list &other) : list{} {
     for (auto item : other) {
       push_back(item);
     }
   }
 
-  explicit list(list &&other) noexcept : list() { splice(cbegin(), other); }
+  explicit list(list &&other) noexcept : list{} { splice(cbegin(), other); }
 
   ~list() {
     while (size_) {
@@ -151,7 +158,7 @@ class list {
 
   list &operator=(const list &other) {
     if (this != &other) {
-      list copy_object(other);
+      list copy_object{other};
       *this = std::move(copy_object);
     }
     return *this;
@@ -160,15 +167,15 @@ class list {
   // ******************************************************* //
   //     публичные методы для доступа к элементам класса     //
 
-  const_reference front() { return *cbegin(); }
+  const_reference front() noexcept { return *cbegin(); }
 
-  const_reference back() { return *--cend(); }
+  const_reference back() noexcept { return *--cend(); }
 
   // ****************************************************************** //
   // публичные методы для доступа к информации о наполнении контейнера: //
-  bool empty() { return size_ == 0; }
+  bool empty() const noexcept { return size_ == 0; }
 
-  size_type size() { return size_; }
+  size_type size() const noexcept { return size_; }
 
   size_type max_size() const noexcept {
     return ((std::numeric_limits<size_type>::max()) / sizeof(Node));
@@ -223,7 +230,7 @@ class list {
     }
   }
 
-  void merge(list &other) {
+  void merge(list &other) noexcept {
     if (this != &other) {
       iterator this_it = begin();
       iterator other_it = other.begin();
@@ -248,7 +255,7 @@ class list {
 
   void splice(const_iterator position, list &other) {
     if (other.size()) {
-      iterator this_position(const_cast<Node *>(position.ptr_));
+      iterator this_position{const_cast<Node *>(position.ptr_)};
       iterator other_position = other.end();
       other_position.ptr_->next_->prev_ = this_position.ptr_->prev_;
       other_position.ptr_->prev_->next_ = this_position.ptr_;
@@ -285,7 +292,7 @@ class list {
     }
   }
 
-  void sort() {
+  void sort() noexcept {
     iterator current_it = begin();
     iterator cur = ++begin();
     iterator prev = begin();

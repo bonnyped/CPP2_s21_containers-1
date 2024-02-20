@@ -1,12 +1,12 @@
-#ifndef SRC_S21_SET_H_
-#define SRC_S21_SET_H_
+/* Copyright 2023 professo bonnypad */
+#ifndef SRC_S21_CONTAINERS_S21_SET_H_
+#define SRC_S21_CONTAINERS_S21_SET_H_
 
 #include <functional>
-#include <iostream>
 #include <utility>
 #include <vector>
 
-#include "s21_rb_tree.h"
+#include "../s21_containers/s21_rb_tree.h"
 
 namespace s21 {
 template <class Key, typename Comp = std::less<Key>>
@@ -99,4 +99,4 @@ class set {
 };
 
 }  // namespace s21
-#endif  // SRC_S21_SET_H_
+#endif  // SRC_S21_CONTAINERS_S21_SET_H_

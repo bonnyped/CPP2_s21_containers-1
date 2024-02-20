@@ -1,5 +1,6 @@
-#ifndef SRC_S21_CONTAINERS_S21_CONTAINERS_S21_RB_TREE_H_
-#define SRC_S21_CONTAINERS_S21_CONTAINERS_S21_RB_TREE_H_
+/* Copyright 2023 professo bonnypad */
+#ifndef SRC_S21_CONTAINERS_S21_RB_TREE_H_
+#define SRC_S21_CONTAINERS_S21_RB_TREE_H_
 
 #include <functional>
 #include <iostream>
@@ -985,4 +986,4 @@ class RBTree {
 
 }  // namespace s21
 
-#endif  //  SRC_S21_CONTAINERS_S21_CONTAINERS_S21_RB_TREE_H_
+#endif  //  SRC_S21_CONTAINERS_S21_RB_TREE_H_

@@ -1,7 +1,13 @@
+/* Copyright 2023 bonnypad professo */
+#ifndef SRC_S21_CONTAINERS_S21_VECTOR_H_
+#define SRC_S21_CONTAINERS_S21_VECTOR_H_
+
 #include <iostream>
 #include <limits>
 #include <utility>
+
 namespace s21 {
+
 template <class T>
 class vector {
  public:
@@ -17,7 +23,7 @@ class vector {
     using pointer_type = std::conditional_t<IsConst, const T *, T *>;
     using reference_type = std::conditional_t<IsConst, const T &, T &>;
     using value_type = std::conditional_t<IsConst, const T, T>;
-    // нужно ли определить size_typeype????
+    using size_type = std::size_t;
 
    public:
     v_iterator(pointer_type ptr)
@@ -293,3 +299,5 @@ class vector {
   value_type *arr_;
 };
 };  // namespace s21
+
+#endif  // SRC_S21_CONTAINERS_S21_VECTOR_H_

@@ -1,11 +1,12 @@
-#ifndef S21_CONTAINERS_S21_CONTAINERS_S21_MULTISET_H_
-#define S21_CONTAINERS_S21_CONTAINERS_S21_MULTISET_H_
-
-#include <iostream>
+/* Copyright 2023 professo bonnypad */
+#ifndef SRC_S21_CONTAINERS_S21_MULTISET_H_
+#define SRC_S21_CONTAINERS_S21_MULTISET_H_
+// #pragma once
+#include <functional>
 #include <utility>
 #include <vector>
 
-#include "s21_rb_tree.h"
+#include "../s21_containers/s21_rb_tree.h"
 
 namespace s21 {
 template <class Key, typename Comp = std::less<Key>>
@@ -22,15 +23,15 @@ class multiset {
   using initializer_list_type = std::initializer_list<value_type>;
 
  public:
-  multiset() : tree_(new tree_type()) {}
+  multiset() : tree_(new tree_type{}) {}
 
-  multiset(initializer_list_type const &items) : multiset() {
+  multiset(initializer_list_type const &items) : multiset{} {
     for (auto item : items) {
       insert(item);
     }
   }
 
-  multiset(const multiset &other) : tree_(new tree_type(*other.tree_)) {}
+  multiset(const multiset &other) : tree_(new tree_type{*other.tree_}) {}
 
   multiset(const multiset &&other) noexcept
       : tree_(new tree_type(std::move(*other.tree_))) {}
@@ -76,11 +77,15 @@ class multiset {
     tree_->Clear();
   }
 
-  iterator lower_bound(const_reference key) { return tree_->LowerBound(key); }
+  iterator lower_bound(const_reference key) noexcept {
+    return tree_->LowerBound(key);
+  }
 
-  iterator upper_bound(const_reference key) { return tree_->UpperBound(key); }
+  iterator upper_bound(const_reference key) noexcept {
+    return tree_->UpperBound(key);
+  }
 
-  std::pair<iterator, iterator> equal_range(const_reference key) {
+  std::pair<iterator, iterator> equal_range(const_reference key) noexcept {
     return tree_->EqualRange(key);
   }
 
@@ -115,4 +120,4 @@ class multiset {
 
 }  // namespace s21
 
-#endif  // S21_CONTAINERS_S21_CONTAINERS_S21_MULTISET_H_
+#endif  // SRC_S21_CONTAINERS_S21_MULTISET_H_

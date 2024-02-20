@@ -1,12 +1,12 @@
-
+/* Copyright 2023 professo bonnypad */
 #ifndef SRC_S21_CONTAINERS_S21_MAP_H_
 #define SRC_S21_CONTAINERS_S21_MAP_H_
-
+#include <functional>
 #include <iostream>
 #include <utility>
 #include <vector>
 
-#include "s21_rb_tree.h"
+#include "../s21_containers/s21_rb_tree.h"
 
 namespace s21 {
 template <typename Key, typename T, typename Comp = std::less<Key>>
@@ -17,7 +17,6 @@ class map {
   using value_type = std::pair<const key_type, mapped_type>;
   using reference = value_type &;
   using const_reference = const value_type &;
-  // using Args = value_type;
 
  private:
   struct MapComparator {
@@ -34,9 +33,9 @@ class map {
   using initializer_list_type = std::initializer_list<value_type>;
 
  public:
-  map() : tree_(new tree_type()) {}
+  map() : tree_(new tree_type{}) {}
 
-  map(initializer_list_type const &items) : map() {
+  map(initializer_list_type const &items) : map{} {
     for (auto item : items) {
       insert(item);
     }
@@ -45,7 +44,7 @@ class map {
   map(const map &other) : tree_(new tree_type(*other.tree_)) {}
 
   map(const map &&other) noexcept
-      : tree_(new tree_type(std::move(*other.tree_))) {}
+      : tree_(new tree_type{std::move(*other.tree_)}) {}
 
   map &operator=(const map &other) {
     *this->tree_ = *other.tree_;
@@ -80,7 +79,7 @@ class map {
 
   bool empty() const noexcept { return tree_->Empty(); }
 
-  bool contains(const key_type &key) {
+  bool contains(const key_type &key) noexcept {
     return tree_->Find({key, mapped_type{}}) != end();
   }
 
@@ -96,9 +95,7 @@ class map {
     return (*tree_->InsertUnique({key, mapped_type{}}).first).second;
   }
 
-  void clear() {  // noexcept ?
-    tree_->Clear();
-  }
+  void clear() { tree_->Clear(); }
 
   std::pair<iterator, bool> insert_or_assign(const key_type &key,
                                              mapped_type &&obj) {

@@ -1,8 +1,9 @@
-#ifndef S21_STACK_H_
-#define S21_STACK_H_
-#include <iostream>
+/* Copyright 2023 professo bonnypad */
+#ifndef SRC_S21_CONTAINERS_S21_STACK_H_
+#define SRC_S21_CONTAINERS_S21_STACK_H_
+#include <utility>
 
-#include "s21_list.h"
+#include "../s21_containers/s21_list.h"
 
 namespace s21 {
 
@@ -50,4 +51,4 @@ class stack {
 };
 
 }  // namespace s21
-#endif  // S21_STACK_H_
+#endif  // SRC_S21_CONTAINERS_S21_STACK_H_

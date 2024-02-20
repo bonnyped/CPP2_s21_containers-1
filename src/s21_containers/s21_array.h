@@ -1,9 +1,7 @@
+/* Copyright 2023 bonnypad professo */
 #ifndef SRC_S21_CONTAINERS_S21_ARRAY_H_
 #define SRC_S21_CONTAINERS_S21_ARRAY_H_
 #include <iostream>
-
-// нужно вместе на созвоне разобраться с тем, где нужно поставить конст,
-// ноэксепт и почему? чем отличается цбегин от бегин?
 
 namespace s21 {
 
@@ -31,7 +29,8 @@ class array {
     } else {
       throw std::out_of_range("Слишком много инициализаторов!");
     }
-  };
+  }
+
   array(const array &a) {
     size_type count = 0;
     for (auto elem : a) {
@@ -39,7 +38,7 @@ class array {
     }
   }
 
-  array(array &&a) { *this = std::move(a); }
+  array(array &&a) noexcept { *this = std::move(a); }
 
   ~array() = default;
 
@@ -63,17 +62,17 @@ class array {
 
   // публичные методы для итерирования по элементам класса (доступ к
   // итераторам):
-  iterator begin() { return arr_; }
-  iterator end() { return arr_ + N; }
-  const_iterator begin() const { return arr_; }
-  const_iterator end() const { return arr_ + N; }
+  iterator begin() noexcept { return arr_; }
+  iterator end() noexcept { return arr_ + N; }
+  const_iterator begin() const noexcept { return arr_; }
+  const_iterator end() const noexcept { return arr_ + N; }
 
   // публичные методы для доступа к информации о наполнении контейнера:
   bool empty() const noexcept { return N == 0; };
 
-  size_type size() const { return N; }
+  size_type size() const noexcept { return N; }
 
-  size_type max_size() const { return N; }
+  size_type max_size() const noexcept { return N; }
 
   // публичные методы для изменения контейнера:
   void swap(array &other) noexcept {  // NOLINT
