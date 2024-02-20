@@ -1,4 +1,4 @@
-/* Copyright 2023 bonnypad professo */
+/* Copyright 2023 professo bonnyped */
 #ifndef SRC_S21_CONTAINERS_S21_VECTOR_H_
 #define SRC_S21_CONTAINERS_S21_VECTOR_H_
 
@@ -31,8 +31,6 @@ class vector {
     }  // explicit = ошибки связанные с арифиетическими операциями с итераторами
     v_iterator(const v_iterator &) = default;
 
-    pointer_type get_ptr() { return ptr_; }
-
     bool operator!=(const v_iterator &other) {
       return this->ptr_ != other.ptr_;
     }
@@ -46,6 +44,7 @@ class vector {
       ++ptr_;
       return *this;
     }
+    pointer_type get_ptr() { return ptr_; }
 
     v_iterator operator++(int) {
       v_iterator copy = *this;
@@ -62,7 +61,6 @@ class vector {
       --ptr_;
       return copy;
     }
-    pointer_type operator->() { return ptr_; }
     pointer_type operator+(size_type _offset_) { return ptr_ + _offset_; }
     pointer_type operator-(size_type _offset_) { return ptr_ - _offset_; }
     size_type operator-(v_iterator reduced) {
@@ -163,12 +161,14 @@ class vector {
   }
 
   vector &operator=(vector &&v) noexcept {
-    capacity_ = v.capacity_;
-    size_ = v.size_;
-    arr_ = v.arr_;
-    v.capacity_ = 0;
-    v.size_ = 0;
-    v.arr_ = nullptr;
+    if (this != &v) {
+      capacity_ = v.capacity_;
+      size_ = v.size_;
+      arr_ = v.arr_;
+      v.capacity_ = 0;
+      v.size_ = 0;
+      v.arr_ = nullptr;
+    }
     return *this;
   };
 
@@ -180,7 +180,7 @@ class vector {
     return arr_[pos];
   }
 
-  reference operator[](size_type pos) { return &arr_; }
+  reference operator[](size_type pos) { return arr_[pos]; }
   const_reference back() { return arr_[size_ - 1]; }
   const_reference front() { return arr_[0]; }
   T *data() { return arr_; }
@@ -191,8 +191,6 @@ class vector {
   size_type max_size() {
     return std::numeric_limits<std::size_t>::max() / sizeof(value_type) / 2;
   }
-
-  value_type *get() { return arr_; }
 
   void reserve(size_type size) {
     if (size > capacity_) {
@@ -228,15 +226,18 @@ class vector {
   }
 
   iterator insert(iterator pos, const_reference value) {
-    if (pos.get_ptr() == end().get_ptr()) {
+    size_type num = pos - begin();
+    if (pos == end()) {
       push_back(value);
+      pos = --end();
     } else {
-      vector tmp_end = vector(pos, end());
-      *pos.get_ptr() = value;
-      for (iterator end = begin() + size_ - 1; end != pos; --end) pop_back();
-      for (auto start = tmp_end.begin(); start != tmp_end.end(); ++start) {
-        push_back(*start);
+      reserve(size() + 1);
+      pos = begin() + num;
+      for (iterator it = end(); it != pos; --it) {
+        *it.get_ptr() = std::move(*(it - 1));
       }
+      *pos.get_ptr() = std::move(value);
+      size_ += 1;
     }
     return pos;
   }
@@ -260,24 +261,23 @@ class vector {
   void pop_back() { erase(end() - 1); }
 
   void swap(vector &other) {
-    vector tmp = std::move(other);
-    other = std::move(*this);
-    *this = std::move(tmp);
+    if (*this != other) {
+      vector tmp = std::move(other);
+      other = std::move(*this);
+      *this = std::move(tmp);
+    }
   }
 
   // бонусная часть
   template <typename... Args>
   iterator insert_many(const_iterator pos, Args &&...args) {
-    size_type number_of_args = sizeof...(args);
     size_type position = pos.get_ptr() - cbegin().get_ptr();
     iterator start_insert = begin() + position;
     iterator to_return_it = start_insert;
 
-    if (number_of_args > 0) {
-      for (auto elem : {std::forward<Args>(args)...}) {
-        insert(start_insert, elem);
-        ++start_insert;
-      }
+    for (auto elem : {std::forward<Args>(args)...}) {
+      start_insert = insert(start_insert, elem);
+      ++start_insert;
     }
 
     return to_return_it;

@@ -1,4 +1,4 @@
-/* Copyright 2023 professo bonnypad */
+/* Copyright 2023 professo bonnyped */
 #ifndef SRC_S21_CONTAINERS_S21_MAP_H_
 #define SRC_S21_CONTAINERS_S21_MAP_H_
 #include <functional>

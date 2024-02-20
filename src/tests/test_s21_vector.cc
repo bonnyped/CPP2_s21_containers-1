@@ -24,6 +24,31 @@ TEST(S21_VECTOR, s21_copy_constructor_test_2) {
   EXPECT_EQ(vector_b.size(), 3U);
 }
 
+TEST(S21_VECTOR, s21_operator_move_copy_test) {
+  s21::vector<int> vector_a;
+  EXPECT_EQ(vector_a.size(), 0U);
+  EXPECT_TRUE(vector_a.empty());
+  vector_a.push_back(999);
+  vector_a.push_back(888);
+  vector_a.push_back(777);
+  vector_a = std::move(vector_a);
+  vector_a = vector_a;
+  EXPECT_EQ(vector_a.size(), 3U);
+}
+
+TEST(S21_VECTOR, s21_operator_eq_copy_test_4) {
+  s21::vector<int> vector_a;
+  EXPECT_EQ(vector_a.size(), 0U);
+  EXPECT_TRUE(vector_a.empty());
+  vector_a.push_back(999);
+  vector_a.push_back(888);
+  vector_a.push_back(777);
+  s21::vector<int> vector_b;
+  vector_b = vector_a;
+  EXPECT_EQ(vector_a.size(), 3U);
+  EXPECT_EQ(vector_b.size(), 3U);
+}
+
 TEST(S21_VECTOR, s21_move_constructor_test_3) {
   s21::vector<int> vector_a;
   EXPECT_EQ(vector_a.size(), 0U);
@@ -305,4 +330,77 @@ TEST(S21_VECTOR, iter_test_18) {
   EXPECT_TRUE(vector_c.cbegin() != vector_c.cend());
   // EXPECT_EQ(vector_a.capacity(), size__);
   // EXPECT_EQ(size__, vector_a.size());
+}
+
+TEST(S21_VECTOR, iter_test_19) {
+  s21::vector<int> vector_a{};
+  vector_a.push_back(9);
+  vector_a.push_back(8);
+  vector_a.push_back(7);
+  vector_a.push_back(6);
+  vector_a.push_back(5);
+  vector_a.push_back(4);
+  vector_a.push_back(3);
+  vector_a.push_back(2);
+  vector_a.push_back(1);
+  vector_a.push_back(0);
+  vector_a.push_back(-1);
+  vector_a.swap(vector_a);
+  EXPECT_EQ(vector_a.back(), -1);
+}
+
+TEST(S21_VECTOR, front_back_at_1) {
+  std::vector<std::string> a;
+  s21::vector<std::string> b;
+  EXPECT_EQ(&a.front(), &b.front());
+  EXPECT_EQ(&a.back(), &b.back());
+  EXPECT_THROW(b.at(1), std::exception);
+}
+
+TEST(S21_VECTOR, data_1) {
+  s21::vector<s21::array<std::string, 10>> a{};
+  std::vector<std::array<std::string, 10>> b{};
+  EXPECT_EQ(a.data()->size(), b.data()->size());
+  EXPECT_EQ(a.data()->max_size(), b.data()->max_size());
+}
+
+TEST(S21_VECTOR, insert_many) {
+  s21::vector<std::string> a;
+  a.insert_many(a.cbegin(), "a", "b", "c");
+  EXPECT_EQ(a[0], "a");
+  EXPECT_EQ(a[1], "b");
+  EXPECT_EQ(a[2], "c");
+  a.insert_many(a.cbegin() + 2, "r", "t", "e");
+  EXPECT_EQ(a[0], "a");
+  EXPECT_EQ(a[1], "b");
+  EXPECT_EQ(a[2], "r");
+  a.insert_many(a.cend(), "1", "2", "3");
+  EXPECT_EQ(a[6], "1");
+  EXPECT_EQ(a[7], "2");
+  EXPECT_EQ(a[8], "3");
+}
+
+TEST(S21_VECTOR, insert_many_18) {
+  s21::vector<int> vector_a;
+  vector_a.insert_many(vector_a.cbegin(), 1, 2, 3, 4, 5, 6, 7, 8, 9, 0);
+  EXPECT_EQ(vector_a[0], 1);
+}
+
+TEST(S21_VECTOR, s21_constructor_test_19) {
+  s21::vector<std::string> vector_a{"Hello!", "Hamlet!", "Hello!", "Hamlet"};
+  s21::vector<std::string> vector_b(++vector_a.begin(), --vector_a.end());
+  EXPECT_EQ(*vector_b.begin(), "Hamlet!");
+  EXPECT_EQ(*--vector_b.end(), "Hello!");
+  s21::vector<std::string> vector_c(vector_a.begin(), vector_a.end());
+  for (std::size_t index = 0; index < vector_a.size(); ++index)
+    EXPECT_EQ(vector_a[index], vector_c[index]);
+  s21::vector<int> a;
+  s21::vector<int> b(a.begin(), a.end());
+  EXPECT_EQ(a.size(), b.size());
+  EXPECT_TRUE(b.empty());
+  for (int index = 0; index < 1000; ++index) a.push_back(index);
+  for (int index = 0; index < 1000; ++index) {
+    a.pop_back();
+    a.shrink_to_fit();
+  }
 }

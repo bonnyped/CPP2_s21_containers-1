@@ -1,4 +1,4 @@
-/* Copyright 2023 bonnypad professo */
+/* Copyright 2023 bonnyped professo */
 #ifndef SRC_S21_CONTAINERS_S21_ARRAY_H_
 #define SRC_S21_CONTAINERS_S21_ARRAY_H_
 #include <iostream>
