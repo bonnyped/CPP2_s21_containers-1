@@ -4,17 +4,27 @@
 using namespace std;
 
 TEST(Constructors, default_constuctor_1) {
-  array<string, 10> a;
-s21:
-  array<string, 10> b;
-  EXPECT_EQ(a, b);
+  s21::array<string, 10> a;
+  EXPECT_EQ(a.max_size(), 10);
+  EXPECT_EQ(a.size(), 10);
+  a.fill("Hello!");
+  EXPECT_EQ(a[0], "Hello!");
+  EXPECT_EQ(a[9], "Hello!");
+  EXPECT_EQ(a.max_size(), 10);
+  EXPECT_EQ(a.size(), 10);
 }
 
 TEST(Constructors, default_constuctor_2) {
-  array<string, 10> a{};
-s21:
-  array<string, 10> b{};
-  EXPECT_EQ(a, b);
+  s21::array<int, 100> a{};
+  EXPECT_EQ(a.max_size(), 100);
+  EXPECT_EQ(a.size(), 100);
+  EXPECT_EQ(a[0], 0);
+  EXPECT_EQ(a[99], 0);
+  a.fill(777);
+  EXPECT_EQ(a.max_size(), 100);
+  EXPECT_EQ(a.size(), 100);
+  EXPECT_EQ(a[0], 777);
+  EXPECT_EQ(a[99], 777);
 }
 
 TEST(Constructors, init_list_constructor_1) {
